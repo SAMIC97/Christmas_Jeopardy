@@ -1,0 +1,214 @@
+{
+  "categories": [
+    {
+      "name": "Movies",
+      "questions": [
+        {
+          "question": "¿En qué película navideña de 1990 un niño se queda solo en casa y debe defender su hogar de dos ladrones?",
+          "choices": ["Mi Pobre Angelito", "Cuento de Navidad", "Pesadilla antes de Navidad", "El Expreso Polar"],
+          "correctAnswer": "Mi Pobre Angelito",
+          "points": 200
+        },
+        {
+          "question": "¿Qué película navideña de 2009 está basada en la novela de Charles Dickens, en la que un hombre tacaño llamado Ebenezer Scrooge es visitado por tres fantasmas?",
+          "choices": ["Cuento de Navidad", "Scrooged", "La Navidad de Dickens", "Los Fantasmas de Scrooge"],
+          "correctAnswer": "Los Fantasmas de Scrooge",
+          "points": 400
+        },
+        {
+          "question": "¿Qué regalo busca frenéticamente Arnold Schwarzenegger en El regalo prometido (1996)?",
+          "choices": ["TurboMan", "Buster", "Power Ranger Rojo", "Stretch Armstrong"],
+          "correctAnswer": "TurboMan",
+          "points": 600
+        },
+        {
+          "question": "En Love Actually (2003), ¿qué instrumento toca el personaje de Sam para impresionar a su crush?",
+          "choices": ["Piano", "Batería", "Guitarra", "Saxofón"],
+          "correctAnswer": "Batería",
+          "points": 800
+        },
+        {
+          "question": "En la película animada Klaus (2019), ¿qué hace que Jesper, el cartero, cambie su actitud al principio de la película?",
+          "choices": ["La amenaza de ser desheredado", "La amistad con Klaus", "La soledad en Smeerensburg", "El rechazo de los niños del pueblo"],
+          "correctAnswer": "La amenaza de ser desheredado",
+          "points": 1000
+        }
+      ]
+    },
+    {
+      "name": "Songs",
+      "questions": [
+        {
+          "question": "¿Qué canción navideña popular menciona a un hombre de nieve?",
+          "choices": ["Jingle Bells", "Frosty the Snowman", "Let It Snow", "Santa Claus Is Coming to Town"],
+          "correctAnswer": "Frosty the Snowman",
+          "points": 200
+        },
+        {
+          "question": "En la canción Last Christmas de Wham!, ¿qué le dio el cantante a su amor?",
+          "choices": ["Su corazón", "Un regalo especial", "Un beso bajo el muérdago", "Un abrazo"],
+          "correctAnswer": "Su corazón",
+          "points": 400
+        },
+        {
+          "question": "Completa la letra de esta canción: Y no poseo más que (....) Rom po pom pom?",
+          "choices": ["un triste tambor", "un viejo tambor", "un pobre tambor", "un solo tambor"],
+          "correctAnswer": "un viejo tambor",
+          "points": 600
+        },
+        {
+          "question": "¿En qué año se lanzó originalmente la canción 'All I Want for Christmas Is You' de Mariah Carey?",
+          "choices": ["1995", "1994", "1998", "2000"],
+          "correctAnswer": "1994",
+          "points": 800
+        },
+        {
+          "question": "¿En qué idioma se cantó originalmente el villancico Noche de Paz?",
+          "choices": ["Inglés", "Alemán", "Latín", "Italiano"],
+          "correctAnswer": "Alemán",
+          "points": 1000
+        }
+      ]
+    },
+    {
+      "name": "History",
+      "questions": [
+        {
+          "question": "¿En qué ciudad, según la tradición cristiana, nació Jesús?",
+          "choices": ["Jerusalén", "Nazaret", "Belén", "Roma"],
+          "correctAnswer": "Belén",
+          "points": 200
+        },
+        {
+          "question": "¿Quién es tradicionalmente conocido como el precursor de Santa Claus debido a su generosidad y actos de bondad hacia los niños?",
+          "choices": ["San Pedro", "San Francisco de Asís", "San Nicolás", "San Juan Bautista"],
+          "correctAnswer": "San Nicolás",
+          "points": 400
+        },
+        {
+          "question": "¿Cuál es el origen de la palabra 'Navidad'?",
+          "choices": ["Del latín Natale", "Del griego Navita", "Del hebreo Navide", "Del arameo Naveed"],
+          "correctAnswer": "Del latín Natale",
+          "points": 600
+        },
+        {
+          "question": "¿Qué papa fijó el 25 de diciembre como la fecha oficial de la Navidad?",
+          "choices": ["Papa Julio I", "Papa Gregorio I", "Papa León I", "Papa Clemente V"],
+          "correctAnswer": "Papa Julio I",
+          "points": 800
+        },
+        {
+          "question": "¿Qué país es considerado el lugar de origen de la tradición moderna de Santa Claus (inspirada en San Nicolás)?",
+          "choices": ["Noruega", "Turquía", "Alemania", "Finlandia"],
+          "correctAnswer": "Turquía",
+          "points": 1000
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "questions": [
+        {
+          "question": "¿Qué famoso personaje de la literatura navideña es conocido por robarse la Navidad, pero luego se redime regresando todo y uniéndose a la celebración?",
+          "choices": ["El Grinch", "Ebenezer Scrooge", "Jack Skellington", "Frosty"],
+          "correctAnswer": "El Grinch",
+          "points": 200
+        },        
+       {
+          "question": "¿Qué famoso escritor británico escribió la obra Cuento de Navidad, que cuenta la historia de Ebenezer Scrooge?",
+          "choices": ["William Shakespeare", "Charles Dickens", "Jane Austen", "Oscar Wilde"],
+          "correctAnswer": "Charles Dickens",
+          "points": 400
+        },
+        {
+          "question": "En Las crónicas de Narnia: El león, la bruja y el armario de C.S. Lewis, ¿qué personaje trae regalos a los niños durante la Navidad?",
+          "choices": ["Santa Claus", "El Rey Caspian", "Aslan", "El Profesor Kirke"],
+          "correctAnswer": "Santa Claus",
+          "points": 600
+        },
+        {
+          "question": "En las novelas de Harry Potter, ¿qué regalo recibe Harry de los Dursley en su primera Navidad en Hogwarts?",
+          "choices": ["Una moneda de plata", "Un calcetín viejo", "Una moneda de diez peniques", "Un pañuelo"],
+          "correctAnswer": "Una moneda de diez peniques",
+          "points": 800
+        },
+        {
+          "question": "En Los bandidos del río frío de Manuel Payno, ¿qué tradición navideña mexicana se menciona como parte del contexto histórico?",
+          "choices": ["La misa de gallo", "Las pastorelas", "La piñata","Las posadas"],
+          "correctAnswer": "Las posadas",
+          "points": 1000
+        }
+      ]
+    },
+    {
+      "name": "Traditions",
+      "questions": [
+        {
+          "question": "¿En qué país se celebra la 'Navidad en verano', ya que el 25 de diciembre coincide con su verano?",
+          "choices": ["Argentina", "Tailandia", "Australia", "Hawaii"],
+          "correctAnswer": "Australia",
+          "points": 200
+        },
+        {
+          "question": "En Estados Unidos, ¿cómo se llama la tradición de esconder un duende que vigila a los niños durante la Navidad?",
+          "choices": ["Santa's Little Helper", "Elf on the Shelf", "Jingle Elf", "The Tiny Watcher"],
+          "correctAnswer": "Elf on the Shelf",
+          "points": 400
+        },
+        {
+          "question": "En qué país nórdico es común que las familias se reúnan para celebrar la *Julbord*, un banquete tradicional navideño con platos como arenques, albóndigas y jamón?",
+          "choices": ["Noruega", "Suecia", "Dinamarca", "Finlandia"],
+          "correctAnswer": "Suecia",
+          "points": 600
+        },
+        {
+          "question": "En Suecia, ¿qué animal de paja gigante es construido en la ciudad de Gävle cada año?",
+          "choices": ["Un reno", "Un carnero", "Un caballo", "Una cabra"],
+          "correctAnswer": "Una cabra",
+          "points": 800
+        },
+        {
+          "question": "En qué país africano, ¿la Navidad se celebra el 7 de enero debido a que siguen el calendario juliano?",
+          "choices": ["Egipto", "Nigeria", "Etiopía", "Sudáfrica"],
+          "correctAnswer": "Etiopía",
+          "points": 1000
+        }
+      ]
+    },
+    {
+      "name": "Guess",
+      "questions": [
+        {
+          "question": "'¡Feliz Navidad, animal inmundo!' es una frase famosa de qué película?",
+          "choices": ["Mi pobre angelito 2: Perdido en Nueva York", "Mi pobre Angelito", "Elf", "Santa Clausula"],
+          "correctAnswer": "Mi pobre angelito 2: Perdido en New York",
+          "points": 200
+        },
+        {
+          "question": "¿Qué personaje dice: '¡Bájense de ahí, bola de chamacos! ¡Se van a romper algo antes de Navidad!'?",
+          "choices": ["Don Chente (La posada mágica)", "El Chavo del 8 (Especial de Navidad del Chavo)", "Ramón Valdés (El regalo navideño de Don Ramón)", "La abuelita (Nochebuena en el barrio)"],
+          "correctAnswer": "El Chavo del 8 (Especial de Navidad del Chavo)",
+          "points": 400
+        },
+        {
+          "question": "En Cuento de Navidad de Charles Dickens, ¿quién dice la frase '¡Basta de ser un tacaño, Scrooge! ¡Si no quieres ser feliz, al menos deja a los demás serlo!'?",
+          "choices": ["El Fantasma de la Navidad Pasada", "Fred, el sobrino de Scrooge", "Jacob Marley", "El Fantasma de la Navidad Futura"],
+          "correctAnswer": "Fred, el sobrino de Scrooge",
+          "points": 600
+        },
+        {
+          "question": "En la película El Expreso Polar, ¿quién dice la frase: 'El verdadero espíritu de Navidad está en creer'?",
+          "choices": ["El conductor del tren", "El niño protagonista", "Santa Claus", "El billete dorado"],
+          "correctAnswer": "El conductor del tren",
+          "points": 800
+        },
+        {
+          "question": "¿En qué película se dice la frase: 'Tal vez la Navidad no viene de una tienda, tal vez la Navidad significa algo más.'?",
+          "choices": ["El Grinch", "Mi pobre angelito", "Frosty el muñeco de nieve", "Milagro en la Calle 34"],
+          "correctAnswer": "El Grinch",
+          "points": 1000
+        }
+      ]
+    }
+  ]
+}
