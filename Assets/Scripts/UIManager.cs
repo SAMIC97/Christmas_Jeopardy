@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     public List<Team> teams = new List<Team>();
 
     [SerializeField] private Transform panelBoard; // Reference to the "Panel Board" object
+    [SerializeField] private GameObject timedOutPanel; // Reference to the Panel with child Image for the flash
+    [SerializeField] private float flashDuration = 0.5f; // Duration of the flash effect
+    [SerializeField] private AnimationCurve flashCurve = AnimationCurve.Linear(0, 1, 1, 0); // Effect for a smooth flash transition
 
     private bool victory = false;
     // Reference to GameManager to call methods on team confirmation
@@ -161,9 +164,49 @@ public class UIManager : MonoBehaviour
 
     public void ShowTimeoutMessage()
     {
-        Debug.Log("TIMED OUT!!! INCORRECT ANSWER");
+        //Debug.Log("TIMED OUT!!! INCORRECT ANSWER");
 
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.wrongAnswerSFX);
+        // Start the flash effect
+        StartCoroutine(FlashEffect());
+    }
+
+    private IEnumerator FlashEffect()
+    {
+        timedOutPanel.SetActive(true);
+
+        Image flashImage = timedOutPanel.transform.Find("Red Flash Image").GetComponent<Image>();
+
+        // Flash twice
+        int flashes = 2; // Number of flashes
+        for (int i = 0; i < flashes; i++)
+        {
+            // Ensure the image is fully visible at the start of each flash
+            flashImage.color = new Color(flashImage.color.r, flashImage.color.g, flashImage.color.b, 1);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.wrongAnswerSFX);
+
+            // Gradually fade out the image
+            float elapsedTime = 0;
+            while (elapsedTime < flashDuration)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Use flashCurve to evaluate alpha if available, otherwise use linear interpolation
+                float alpha = flashCurve != null
+                    ? flashCurve.Evaluate(elapsedTime / flashDuration)
+                    : Mathf.Lerp(1, 0, elapsedTime / flashDuration);
+
+                flashImage.color = new Color(flashImage.color.r, flashImage.color.g, flashImage.color.b, alpha);
+                yield return null;
+            }
+
+            // Ensure the image is fully transparent at the end of each flash
+            flashImage.color = new Color(flashImage.color.r, flashImage.color.g, flashImage.color.b, 0);
+
+            // Optionally, add a short delay between flashes
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        timedOutPanel.SetActive(false);
     }
 
     public void ResetGame()
