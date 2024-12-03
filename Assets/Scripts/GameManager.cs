@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
     private int currentTeamIndex = 0;       // To keep track of the team's turn
     private UIManager uiManager;
     public static GameManager Instance { get; private set; }
+
+    [SerializeField] private int maxTeams = 10; // Limit the Number of Teams allowed
+    [SerializeField] private Text placeholderText;
 
     void Awake()
     {
@@ -33,6 +37,43 @@ public class GameManager : MonoBehaviour
     {
         uiManager = FindObjectOfType<UIManager>();
         AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
+        teamInputField.onValueChanged.AddListener(ValidateInput); // Subscribe to the InputField's value change event
+    }
+
+    private IEnumerator ResetPlaceholderAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        placeholderText.text = "Ingrese número de equipos";
+    }
+
+    private void ValidateInput(string input)
+    {
+        // Remove non-numeric characters
+        string numericInput = "";
+        foreach (char c in input)
+        {
+            if (char.IsDigit(c)) numericInput += c;
+        }
+
+        // Limit the number of teams to maxTeams
+        if (int.TryParse(numericInput, out int numTeams))
+        {
+            if (numTeams > maxTeams)
+            {
+                // Clear the input and show placeholder message
+                numericInput = "";
+                placeholderText.text = "Se permiten máximo 10 equipos.";
+                StartCoroutine(ResetPlaceholderAfterDelay(2f)); // Reset after 2 seconds
+            }
+            else
+            {
+                // Reset placeholder to default if input is valid
+                placeholderText.text = "Ingrese número de equipos";
+            }
+        }
+
+        // Update the InputField text
+        teamInputField.text = numericInput;
     }
 
     public void OnConfirmTeams()

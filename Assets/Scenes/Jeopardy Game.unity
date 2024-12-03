@@ -9233,6 +9233,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8d03355e828c32a47b0238b88c974afb, type: 3}
   - {fileID: 21300000, guid: 83754c517ef6ba843b8f3413d61eb78c, type: 3}
   answeredQuestions: 0
+  maxTeams: 10
+  placeholderText: {fileID: 2104671008}
 --- !u!114 &1811863124
 MonoBehaviour:
   m_ObjectHideFlags: 0
