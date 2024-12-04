@@ -145,6 +145,7 @@ public class QuestionManager : MonoBehaviour
                 selectedButton.GetComponent<Image>().color = Color.green;  // Correct answer
             }
             GameManager.Instance.UpdateScore(questionPoints);
+            GameManager.Instance.UpdateCoins();
         }
         else
         {

@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     public GameObject teamsPanelPrefab;     // Prefab for team display w/image and text
     public InputField teamInputField;       // Input field in teamSetupPanel
     public Transform teamsPanelParent;      // Panel to display the number of teams in Gameboard
-    public Sprite[] teamIcons;              //Icons to use for team setup
+    //public Sprite[] teamIcons;              //Icons to use for team setup
+    public Text coinCountText; // Reference to the coin count text
 
     public int answeredQuestions = 0;       // Track the number of answered questions
        
-    private int totalQuestions = 3;        // Set this to the total number of questions
+    private int totalQuestions = 30;        // Set this to the total number of questions
     private int currentTeamIndex = 0;       // To keep track of the team's turn
     private UIManager uiManager;
     public static GameManager Instance { get; private set; }
@@ -120,9 +121,15 @@ public class GameManager : MonoBehaviour
             GameObject scorePanel = Instantiate(teamsPanelPrefab, teamsPanelParent);
 
             // Set the team name in the score panel
-            Text scoreText = scorePanel.GetComponentInChildren<Text>();
+            Transform teamPanel = teamsPanelParent.GetChild(i); // Get the current team's panel
+            Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>(); // Navigate the hierarchy
             scoreText.text = newTeam.teamName + ": 0";
 
+            // Set the coin in the coins panel
+            Text coinText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>(); // Navigate the hierarchy
+            coinText.text = newTeam.coins.ToString();
+
+            /*
             // Assign a random icon
             Transform iconPanel = scorePanel.transform.Find("Panel Icon/Image Icon");
             if (iconPanel != null)
@@ -139,7 +146,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.LogError("Icon not found in prefab! Check your hierarchy.");
-            }
+            }*/
 
             newTeam.scorePanel = scorePanel;  // Store the score panel in the team
         }
@@ -166,6 +173,7 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(uiManager.teams[currentTeamIndex].teamName + "'s turn to play!");
+        Debug.Log(uiManager.teams[currentTeamIndex].coins + "'s coins");
     }
 
     public void UpdateScore(int points)
@@ -174,8 +182,52 @@ public class GameManager : MonoBehaviour
         uiManager.teams[currentTeamIndex].score += points;
 
         // Update score display in UI
-        Text scoreText = teamsPanelParent.GetChild(currentTeamIndex).GetComponentInChildren<Text>();
+        Transform teamPanel = teamsPanelParent.GetChild(currentTeamIndex); // Get the current team's panel
+        Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>(); // Navigate the hierarchy
         scoreText.text = uiManager.teams[currentTeamIndex].teamName + ": " + uiManager.teams[currentTeamIndex].score;
+    }
+
+    public void UpdateCoins()
+    {
+        // Award 1 coin if the answering team is the current team
+        if (uiManager.teams[currentTeamIndex].coins < 5)
+        {
+            uiManager.teams[currentTeamIndex].GainCoin();
+            UpdateTeamCoins(currentTeamIndex);
+        }
+
+        Debug.Log("Coins Total: " + uiManager.teams[currentTeamIndex].coins);
+    }
+
+    public void UpdateTeamCoins(int teamIndex)
+    {
+        int coins = uiManager.teams[teamIndex].coins;
+        UpdateCoinCount(coins);
+    }
+
+    // Method to update the displayed coin count
+    public void UpdateCoinCount(int coins)
+    {
+        Transform teamPanel = teamsPanelParent.GetChild(currentTeamIndex); // Get the current team's panel
+        Text coinCountText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>(); // Navigate the hierarchy
+        coinCountText.text = coins.ToString();
+    }
+
+    public void AttemptSteal(Team stealingTeam, int questionPoints)
+    {
+        int stealCost = questionPoints / 200; // Determine cost based on points (200 = 1 coin, etc.)
+
+        // Check if the stealing team has enough coins
+        if (!stealingTeam.SpendCoins(stealCost))
+        {
+            Debug.Log($"{stealingTeam.teamName} doesn't have enough coins to steal.");
+            return;
+        }
+
+        Debug.Log($"{stealingTeam.teamName} is attempting to steal!");
+
+        // Show the question to the stealing team and set up for their response
+        //ShowQuestionToStealingTeam(stealingTeam);
     }
 
     public void EndTurn()
