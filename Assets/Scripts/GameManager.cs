@@ -14,7 +14,12 @@ public class GameManager : MonoBehaviour
     public int answeredQuestions = 0;       // Track the number of answered questions
        
     private int totalQuestions = 30;        // Set this to the total number of questions
-    private int currentTeamIndex = 0;       // To keep track of the team's turn
+    public int currentTeamIndex = 0;       // To keep track of the team's turn
+
+    public int currentStealTeamIndex;
+    public int questionValue;
+    private Queue<int> stealQueue;
+
     private UIManager uiManager;
     public static GameManager Instance { get; private set; }
 
@@ -176,60 +181,46 @@ public class GameManager : MonoBehaviour
         Debug.Log(uiManager.teams[currentTeamIndex].coins + "'s coins");
     }
 
-    public void UpdateScore(int points)
+    public void UpdateScore(int teamIndex, int points)
     {
+        Debug.Log("teamIndex: " + teamIndex);
+
         // Add points to the current team's score
-        uiManager.teams[currentTeamIndex].score += points;
+        uiManager.teams[teamIndex].score += points;
 
         // Update score display in UI
-        Transform teamPanel = teamsPanelParent.GetChild(currentTeamIndex); // Get the current team's panel
+        Transform teamPanel = teamsPanelParent.GetChild(teamIndex); // Get the current team's panel
         Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>(); // Navigate the hierarchy
-        scoreText.text = uiManager.teams[currentTeamIndex].teamName + ": " + uiManager.teams[currentTeamIndex].score;
+        scoreText.text = uiManager.teams[teamIndex].teamName + ": " + uiManager.teams[teamIndex].score;
     }
 
-    public void UpdateCoins()
+    // Award 1 coin if the answering team is the current team
+    public void UpdateCoins(int teamIndex)
     {
-        // Award 1 coin if the answering team is the current team
-        if (uiManager.teams[currentTeamIndex].coins < 5)
+        if (uiManager.teams[teamIndex].coins < 5)
         {
-            uiManager.teams[currentTeamIndex].GainCoin();
-            UpdateTeamCoins(currentTeamIndex);
+            uiManager.teams[teamIndex].GainCoin();
+            UpdateTeamCoins(teamIndex);
         }
 
-        Debug.Log("Coins Total: " + uiManager.teams[currentTeamIndex].coins);
+        Debug.Log("Coins Total: " + uiManager.teams[teamIndex].coins);
     }
 
     public void UpdateTeamCoins(int teamIndex)
     {
         int coins = uiManager.teams[teamIndex].coins;
-        UpdateCoinCount(coins);
+        UpdateCoinCount(teamIndex, coins);
     }
 
     // Method to update the displayed coin count
-    public void UpdateCoinCount(int coins)
+    public void UpdateCoinCount(int teamIndex, int coins)
     {
-        Transform teamPanel = teamsPanelParent.GetChild(currentTeamIndex); // Get the current team's panel
+        Transform teamPanel = teamsPanelParent.GetChild(teamIndex); // Get the current team's panel
         Text coinCountText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>(); // Navigate the hierarchy
         coinCountText.text = coins.ToString();
     }
-
-    public void AttemptSteal(Team stealingTeam, int questionPoints)
-    {
-        int stealCost = questionPoints / 200; // Determine cost based on points (200 = 1 coin, etc.)
-
-        // Check if the stealing team has enough coins
-        if (!stealingTeam.SpendCoins(stealCost))
-        {
-            Debug.Log($"{stealingTeam.teamName} doesn't have enough coins to steal.");
-            return;
-        }
-
-        Debug.Log($"{stealingTeam.teamName} is attempting to steal!");
-
-        // Show the question to the stealing team and set up for their response
-        //ShowQuestionToStealingTeam(stealingTeam);
-    }
-
+    
+    //End turn of current team and proceed with next one
     public void EndTurn()
     {
         // End the current team's turn
@@ -252,5 +243,110 @@ public class GameManager : MonoBehaviour
             totalQuestions = 3;
             answeredQuestions = 0;
         }
+    }
+
+
+    /* STEA LOGIC */
+    public void AttemptStealQuestion(int questionValue)
+    {
+        // Determine which teams have enough coins to steal
+        Queue<int> eligibleTeams = new Queue<int>();
+
+        // Find teams eligible to steal
+        for (int i = 0; i < uiManager.teams.Count; i++)
+        {
+            if (i != currentTeamIndex && uiManager.teams[i].coins >= GetCoinCost(questionValue))
+            {
+                eligibleTeams.Enqueue(i);
+            }
+        }
+
+        if (eligibleTeams.Count == 0)
+        {
+            Debug.Log("No teams have enough coins to steal.");
+            EndStealPhase(); // Continue the game if no one can steal
+            return;
+        }
+
+        // Start the steal attempt process
+        StartCoroutine(DelayBeforeSteal(eligibleTeams, questionValue));
+    }
+
+    private IEnumerator DelayBeforeSteal(Queue<int> eligibleTeams, int questionValue)
+    {
+        // Show a transition panel during the delay
+        uiManager.stealMessagePanel.SetActive(true);
+
+        yield return new WaitForSeconds(1.5f); // Wait for 3 seconds
+
+        // Hide the transition panel before showing the steal panel
+        uiManager.stealMessagePanel.SetActive(false);
+
+        // Start processing steal attempts
+        StartCoroutine(ProcessStealAttempts(eligibleTeams, questionValue));
+    }
+
+    private IEnumerator ProcessStealAttempts(Queue<int> eligibleTeams, int questionValue)
+    {
+        stealQueue = new Queue<int>(eligibleTeams);
+        this.questionValue = questionValue;
+
+        while (stealQueue.Count > 0)
+        {
+            currentStealTeamIndex = stealQueue.Dequeue();
+
+            // Update panel message
+            uiManager.stealMessageText.text = $"Team {uiManager.teams[currentStealTeamIndex].teamName}, do you want to steal this question for {GetCoinCost(questionValue)} coins?";
+
+            // Show the steal panel and wait for input
+            uiManager.stealPanel.SetActive(true);
+
+            //Hide question buttons to avoid a false answer
+            uiManager.buttonAnswerPanel.SetActive(false);
+
+            yield return new WaitUntil(() => uiManager.stealPanel.activeSelf == false); // Wait until the panel is closed
+
+            // If a team steals, stop further attempts
+            if (uiManager.teamHasStolen)
+            {
+                uiManager.teamHasStolen = false; // Reset flag for future steals
+                yield break;
+            }
+        }
+
+        Debug.Log("No team chose to steal.");
+        EndStealPhase(); // No team chose to steal, end the phase
+    }
+
+    public void HandleSteal(int teamIndex, int questionValue)
+    {
+        Debug.Log("teamIndex HandleSteal: " + teamIndex);
+        int coinCost = GetCoinCost(questionValue);
+        uiManager.teams[teamIndex].coins -= coinCost; // Deduct coins
+        UpdateCoinCount(teamIndex, uiManager.teams[teamIndex].coins);
+
+        Debug.Log($"Team {uiManager.teams[teamIndex].teamName} paid {coinCost} coins to steal.");
+
+        // Reset the question for the stealing team
+        QuestionManager.Instance.ResetQuestionForStealing();
+
+        // Disable the question and end the steal phase
+        //DisableQuestion(questionValue);
+        //EndStealPhase();
+    }
+
+    private int GetCoinCost(int questionValue)
+    {
+        return questionValue / 200; // 1 coin per 200 points (e.g., 200 -> 1, 400 -> 2, ...)
+    }
+
+    // Ends the steal phase
+    private void EndStealPhase()
+    {
+        Debug.Log("Steal phase ended. Continuing game.");
+        uiManager.stealPanel.SetActive(false); // Ensure panel is hidden
+        uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
+        uiManager.buttonAnswerPanel.SetActive(true);
+        EndTurn(); // Continue to the next turn
     }
 }

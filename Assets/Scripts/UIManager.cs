@@ -9,13 +9,19 @@ public class UIManager : MonoBehaviour
     public GameObject teamSetupPanel;       // Panel to input number of teams
     public GameObject gameBoardPanel;       // Panel with game board
     public GameObject instructionsPanel;    // Panel with Instructions
-    public GameObject WinningPanel;         // Reference to the Winning Panel UI
-    public GameObject QuestionPanel;       // Reference to the Question Panel
+    public GameObject winningPanel;         // Reference to the Winning Panel UI
+    public GameObject questionPanel;       // Reference to the Question Panel
+    public GameObject buttonAnswerPanel;   // Reference to the Question´s button answers Panel
 
     public Button returnButton;            // Button to return to the Game Board
     public Button startButton;              // Start button in initial game panel
     public Button confirmTeamsButton;       // Button to submit number teams in teamSetUpPanel
     public Text winningText;                // Text to display the winning team
+
+    public GameObject stealPanel;           // Assign this in the Inspector
+    public Text stealMessageText;           // Text element inside StealPanel
+    public bool teamHasStolen = false;      // Flag to track if any team steals the question
+    public GameObject stealMessagePanel; // Reference to the Panel with child Image for the flash
 
     public List<Team> teams = new List<Team>();
 
@@ -115,7 +121,7 @@ public class UIManager : MonoBehaviour
         }
 
         // Show the Winning Panel and hide the Game Board Panel
-        WinningPanel.SetActive(true);
+        winningPanel.SetActive(true);
         gameBoardPanel.SetActive(false);
 
         victory = true;
@@ -134,14 +140,14 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
 
         gameBoardPanel.SetActive(true);
-        QuestionPanel.SetActive(false);
+        questionPanel.SetActive(false);
     }
 
     // Function to show the Question panel and hide the Game Board panel
     public void ShowQuestionPanel()
     {
         gameBoardPanel.SetActive(false);
-        QuestionPanel.SetActive(true);
+        questionPanel.SetActive(true);
     }
 
     public void HighlightCorrectAnswer(List<Button> answerButtons, Question currentQuestion)
@@ -164,17 +170,15 @@ public class UIManager : MonoBehaviour
 
     public void ShowTimeoutMessage()
     {
-        //Debug.Log("TIMED OUT!!! INCORRECT ANSWER");
-
         // Start the flash effect
         StartCoroutine(FlashEffect());
     }
 
-    private IEnumerator FlashEffect()
+    public IEnumerator FlashEffect()
     {
         timedOutPanel.SetActive(true);
 
-        Image flashImage = timedOutPanel.transform.Find("Red Flash Image").GetComponent<Image>();
+        Image flashImage = timedOutPanel.transform.Find("Flash Image").GetComponent<Image>();
 
         // Flash twice
         int flashes = 2; // Number of flashes
@@ -220,7 +224,7 @@ public class UIManager : MonoBehaviour
         ResetCategoryButtons(panelBoard);
 
         // Hide the Winning Panel and return to the main menu
-        WinningPanel.SetActive(false);
+        winningPanel.SetActive(false);
         gameBoardPanel.SetActive(false);
         homePanel.SetActive(true);
 
@@ -257,5 +261,21 @@ public class UIManager : MonoBehaviour
                 ResetCategoryButtons(child);
             }
         }
+    }
+
+    /*STEAL LOGIC*/
+    public void OnYesButtonClicked()
+    {
+        teamHasStolen = true; // Mark as stolen
+        Debug.Log($"Team {teams[GameManager.Instance.currentStealTeamIndex].teamName} decided to steal!");
+        stealPanel.SetActive(false); // Close the panel
+        GameManager.Instance.HandleSteal(GameManager.Instance.currentStealTeamIndex, GameManager.Instance.questionValue);
+        buttonAnswerPanel.SetActive(true);
+    }
+
+    public void OnNoButtonClicked()
+    {
+        Debug.Log($"Team {teams[GameManager.Instance.currentStealTeamIndex].teamName} declined to steal.");
+        stealPanel.SetActive(false); // Close the panel
     }
 }

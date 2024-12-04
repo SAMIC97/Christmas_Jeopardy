@@ -7,7 +7,7 @@ public class Question
     public List<string> choices;    // Holds multiple choices
     public string correctAnswer;    // The correct answer for validation
     public int points;              //Value of the question
-
+    public bool hasBeenStolen = false; //Attempt to be steal question
 }
 
 [System.Serializable]

@@ -5,7 +5,7 @@ public class Team
 {
     public string teamName;
     public int score = 0;
-    public int coins = 3; // Start with 5 coins
+    public int coins = 5; // Start with 5 coins
     public bool isTurn = false;  // To keep track of the current turn
     public GameObject scorePanel;  // Reference to the UI panel for this team
 
