@@ -6,7 +6,6 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public GameObject teamsPanelPrefab;     // Prefab for team display w/image and text
-    public InputField teamInputField;       // Input field in teamSetupPanel
     public Transform teamsPanelParent;      // Panel to display the number of teams in Gameboard
     //public Sprite[] teamIcons;              //Icons to use for team setup
     public Text coinCountText; // Reference to the coin count text
@@ -22,9 +21,6 @@ public class GameManager : MonoBehaviour
 
     private UIManager uiManager;
     public static GameManager Instance { get; private set; }
-
-    [SerializeField] private int maxTeams = 10; // Limit the Number of Teams allowed
-    [SerializeField] private Text placeholderText;
 
     void Awake()
     {
@@ -43,15 +39,8 @@ public class GameManager : MonoBehaviour
     {
         uiManager = FindObjectOfType<UIManager>();
         AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
-        teamInputField.onValueChanged.AddListener(ValidateInput); // Subscribe to the InputField's value change event
     }
-
-    private IEnumerator ResetPlaceholderAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        placeholderText.text = "Ingrese número de equipos";
-    }
-
+    /*
     private void ValidateInput(string input)
     {
         // Remove non-numeric characters
@@ -80,8 +69,8 @@ public class GameManager : MonoBehaviour
 
         // Update the InputField text
         teamInputField.text = numericInput;
-    }
-
+    }*/
+    /*
     public void OnConfirmTeams()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
@@ -104,9 +93,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Invalid team count entered.");
         }
-    }
+    }*/
 
-    void CreateScorePanels(int teamCount)
+    public void CreateScorePanels(int teamCount)
     {
         foreach (Transform child in teamsPanelParent)
         {
@@ -157,7 +146,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateTurnDisplay()
+    public void UpdateTurnDisplay()
     {
         Color activeColor = new Color(0f, 1f, 0f, 0.5f);  // Green with 50% transparency
         Color inactiveColor = new Color(1f, 1f, 1f, 0f);   // White with full opacity

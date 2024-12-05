@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject questionPanel;       // Reference to the Question Panel
     public GameObject buttonAnswerPanel;   // Reference to the Question´s button answers Panel
 
+    public InputField teamInputField;       // Input field in teamSetupPanel
     public Button returnButton;            // Button to return to the Game Board
     public Button startButton;              // Start button in initial game panel
     public Button confirmTeamsButton;       // Button to submit number teams in teamSetUpPanel
@@ -23,8 +24,12 @@ public class UIManager : MonoBehaviour
     public bool teamHasStolen = false;      // Flag to track if any team steals the question
     public GameObject stealMessagePanel; // Reference to the Panel with child Image for the flash
 
+    public ParticleSystem snowEffect; // Reference to the snow particle system
+
     public List<Team> teams = new List<Team>();
 
+    [SerializeField] private int maxTeams = 10; // Limit the Number of Teams allowed
+    [SerializeField] private Text placeholderText;
     [SerializeField] private Transform panelBoard; // Reference to the "Panel Board" object
     [SerializeField] private GameObject timedOutPanel; // Reference to the Panel with child Image for the flash
     [SerializeField] private float flashDuration = 0.5f; // Duration of the flash effect
@@ -39,13 +44,16 @@ public class UIManager : MonoBehaviour
         // Initialize GameManager reference
         gameManager = GameManager.Instance;
 
+        ToggleSnowEffect(true);
         homePanel.SetActive(true);
         teamSetupPanel.SetActive(false);
         gameBoardPanel.SetActive(false);
         returnButton.gameObject.SetActive(false);  // Hide the Return button initially
 
+        teamInputField.onValueChanged.AddListener(ValidateInput); // Subscribe to the InputField's value change event
+
         startButton.onClick.AddListener(ShowTeamSetupPanel);
-        confirmTeamsButton.onClick.AddListener(gameManager.OnConfirmTeams);
+        confirmTeamsButton.onClick.AddListener(OnConfirmTeams);
     }
     //When user press Instructions Button
     public void ShowInstructions()
@@ -60,6 +68,66 @@ public class UIManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
         Application.Quit();
+    }
+
+    private void ValidateInput(string input)
+    {
+        // Remove non-numeric characters
+        string numericInput = "";
+        foreach (char c in input)
+        {
+            if (char.IsDigit(c)) numericInput += c;
+        }
+
+        // Limit the number of teams to maxTeams
+        if (int.TryParse(numericInput, out int numTeams))
+        {
+            if (numTeams > maxTeams)
+            {
+                // Clear the input and show placeholder message
+                numericInput = "";
+                placeholderText.text = "Se permiten máximo 10 equipos.";
+                StartCoroutine(ResetPlaceholderAfterDelay(2f)); // Reset after 2 seconds
+            }
+            else
+            {
+                // Reset placeholder to default if input is valid
+                placeholderText.text = "Ingrese número de equipos";
+            }
+        }
+
+        // Update the InputField text
+        teamInputField.text = numericInput;
+    }
+    private IEnumerator ResetPlaceholderAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        placeholderText.text = "Ingrese número de equipos";
+    }
+
+    public void OnConfirmTeams()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
+
+        int teamCount;
+        if (int.TryParse(teamInputField.text, out teamCount) && teamCount > 0)
+        {
+            gameManager.CreateScorePanels(teamCount);
+
+            ToggleSnowEffect(false);
+            teamSetupPanel.SetActive(false);
+            gameBoardPanel.SetActive(true);
+
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
+
+            // Set the first team as the one to start
+            teams[gameManager.currentTeamIndex].isTurn = true;
+            gameManager.UpdateTurnDisplay();
+        }
+        else
+        {
+            Debug.LogError("Invalid team count entered.");
+        }
     }
 
     public void ShowTeamSetupPanel()
@@ -227,6 +295,7 @@ public class UIManager : MonoBehaviour
         winningPanel.SetActive(false);
         gameBoardPanel.SetActive(false);
         homePanel.SetActive(true);
+        ToggleSnowEffect(true);
 
         AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
 
@@ -237,7 +306,7 @@ public class UIManager : MonoBehaviour
 
     void ResetTeamInputField()
     {
-        GameManager.Instance.teamInputField.text = ""; // Clear the input field
+        teamInputField.text = ""; // Clear the input field
         foreach (Transform child in GameManager.Instance.teamsPanelParent)
         {
             Destroy(child.gameObject); // Remove all instantiated team UI elements
@@ -263,8 +332,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /*STEAL LOGIC*/
-    public void OnYesButtonClicked()
+    public void ToggleSnowEffect(bool isActive)
+    {
+        if (snowEffect == null)
+        {
+            Debug.LogError("SnowEffect is not assigned in UIManager!");
+            return;
+        }
+
+        if (isActive)
+        {
+            if (!snowEffect.isPlaying)
+                snowEffect.Play();
+        }
+        else
+        {
+            if (snowEffect.isPlaying)
+                snowEffect.Stop();
+        }
+    }
+
+
+
+/*STEAL LOGIC*/
+public void OnYesButtonClicked()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
         teamHasStolen = true; // Mark as stolen
