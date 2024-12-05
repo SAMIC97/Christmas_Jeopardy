@@ -266,6 +266,7 @@ public class UIManager : MonoBehaviour
     /*STEAL LOGIC*/
     public void OnYesButtonClicked()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
         teamHasStolen = true; // Mark as stolen
         Debug.Log($"Team {teams[GameManager.Instance.currentStealTeamIndex].teamName} decided to steal!");
         stealPanel.SetActive(false); // Close the panel
@@ -275,6 +276,7 @@ public class UIManager : MonoBehaviour
 
     public void OnNoButtonClicked()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
         Debug.Log($"Team {teams[GameManager.Instance.currentStealTeamIndex].teamName} declined to steal.");
         stealPanel.SetActive(false); // Close the panel
     }

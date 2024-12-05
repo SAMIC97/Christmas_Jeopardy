@@ -19,7 +19,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip categoryClickSFX;     // Sound effect for button clicks
     public AudioClip correctAnswerSFX;   // Sound effect for correct answers
     public AudioClip wrongAnswerSFX;     // Sound effect for wrong answers
-    public AudioClip timeTickingFX;      // Sound effect when the timer is counting
+    public AudioClip timeTickingSFX;      // Sound effect when the timer is counting
+    public AudioClip grichLaughSFX;      // Sound effect when the timer is counting
 
     private void Awake()
     {
@@ -63,9 +64,9 @@ public class AudioManager : MonoBehaviour
 
     public void StartTickingSound()
     {
-        if (tickingSource != null && timeTickingFX != null)
+        if (tickingSource != null && timeTickingSFX != null)
         {
-            tickingSource.clip = timeTickingFX;
+            tickingSource.clip = timeTickingSFX;
             tickingSource.loop = true; // Loop the ticking sound
             tickingSource.Play();
         }

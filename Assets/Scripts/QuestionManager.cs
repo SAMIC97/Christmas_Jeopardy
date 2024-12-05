@@ -1,7 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Collections;
 
 public class QuestionManager : MonoBehaviour
 {
@@ -131,7 +131,7 @@ public class QuestionManager : MonoBehaviour
         uiManager.ShowQuestionPanel();
 
         // Start the timer for this question
-        StartTimer(currentQuestion.points);
+        StartTimer();
     }
 
     void CheckAnswer(string playerAnswer, Button selectedButton, int questionPoints) 
@@ -193,6 +193,7 @@ public class QuestionManager : MonoBehaviour
                     uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);  // Highlight the correct answer
                     currentQuestion.hasBeenStolen = false;
                     uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
+                    GameManager.Instance.EndTurn();
                 }
                 else
                 {
@@ -202,7 +203,19 @@ public class QuestionManager : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.AttemptStealQuestion(questionPoints);
+                if (currentQuestion.hasBeenStolen)
+                {
+                    Debug.Log("Timed out second time and null button");
+                    uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);  // Highlight the correct answer
+                    currentQuestion.hasBeenStolen = false;
+                    uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
+                    GameManager.Instance.EndTurn();
+                }
+                else
+                {
+                    GameManager.Instance.AttemptStealQuestion(questionPoints);
+                }
+                
             }
         }
 
@@ -210,7 +223,7 @@ public class QuestionManager : MonoBehaviour
         isTimedOut = false;
     }
 
-    public void StartTimer(int questionPoints)
+    public void StartTimer()
     {
         timeRemaining = GetMaxTimeForCurrentQuestion(); // Get time based on question points
         isTimerActive = true; // Activate the timer
@@ -221,7 +234,7 @@ public class QuestionManager : MonoBehaviour
             timerSlider.value = 1f; // Start with a full progress bar
         }
 
-        //AudioManager.Instance.PlaySFX(AudioManager.Instance.timeTickingFX);
+        //Start ticking sounds for clock
         AudioManager.Instance.StartTickingSound();
     }
 
@@ -260,6 +273,8 @@ public class QuestionManager : MonoBehaviour
         // Set the timeout flag to true
         isTimedOut = true;
 
+        Debug.Log("hasBeenStolen: " + currentQuestion.hasBeenStolen);
+
         if (currentQuestion.hasBeenStolen)
         {
             // Call CheckAnswer with no player answer (empty or null)
@@ -280,7 +295,7 @@ public class QuestionManager : MonoBehaviour
         yield return StartCoroutine(uiManager.FlashEffect());
 
         // Add a delay before showing the steal panel
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
 
         // Show the steal panel
         GameManager.Instance.AttemptStealQuestion(currentQuestion.points);
@@ -334,6 +349,6 @@ public class QuestionManager : MonoBehaviour
             }
         }
         // Reset timer for the stealing team
-        StartTimer(currentQuestion.points);
+        StartTimer();
     }
 }

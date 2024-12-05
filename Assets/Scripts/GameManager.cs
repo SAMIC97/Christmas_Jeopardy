@@ -252,12 +252,17 @@ public class GameManager : MonoBehaviour
         // Determine which teams have enough coins to steal
         Queue<int> eligibleTeams = new Queue<int>();
 
-        // Find teams eligible to steal
-        for (int i = 0; i < uiManager.teams.Count; i++)
+        int totalTeams = uiManager.teams.Count;
+        int startingTeamIndex = (currentTeamIndex + 1) % totalTeams; // Start with the next team
+
+        // Add teams in order starting from the next one after the current team
+        for (int i = 0; i < totalTeams; i++)
         {
-            if (i != currentTeamIndex && uiManager.teams[i].coins >= GetCoinCost(questionValue))
+            int teamIndex = (startingTeamIndex + i) % totalTeams; // Loop around to the beginning
+
+            if (teamIndex != currentTeamIndex && uiManager.teams[teamIndex].coins >= GetCoinCost(questionValue))
             {
-                eligibleTeams.Enqueue(i);
+                eligibleTeams.Enqueue(teamIndex);
             }
         }
 
@@ -274,10 +279,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DelayBeforeSteal(Queue<int> eligibleTeams, int questionValue)
     {
+        //Play Grinch laugh with steal message image
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.grichLaughSFX);
+
         // Show a transition panel during the delay
         uiManager.stealMessagePanel.SetActive(true);
 
-        yield return new WaitForSeconds(1.5f); // Wait for 3 seconds
+        yield return new WaitForSeconds(1.0f); // Wait for 3 seconds
 
         // Hide the transition panel before showing the steal panel
         uiManager.stealMessagePanel.SetActive(false);
@@ -296,7 +304,7 @@ public class GameManager : MonoBehaviour
             currentStealTeamIndex = stealQueue.Dequeue();
 
             // Update panel message
-            uiManager.stealMessageText.text = $"Team {uiManager.teams[currentStealTeamIndex].teamName}, do you want to steal this question for {GetCoinCost(questionValue)} coins?";
+            uiManager.stealMessageText.text = $"Equipo {uiManager.teams[currentStealTeamIndex].teamName}. ¿Quieres robar esta pregunta por {GetCoinCost(questionValue)} monedas?";
 
             // Show the steal panel and wait for input
             uiManager.stealPanel.SetActive(true);
@@ -329,10 +337,6 @@ public class GameManager : MonoBehaviour
 
         // Reset the question for the stealing team
         QuestionManager.Instance.ResetQuestionForStealing();
-
-        // Disable the question and end the steal phase
-        //DisableQuestion(questionValue);
-        //EndStealPhase();
     }
 
     private int GetCoinCost(int questionValue)
