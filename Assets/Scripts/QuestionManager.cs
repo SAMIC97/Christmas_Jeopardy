@@ -3,25 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the question display, timer, and answer validation logic.
+/// </summary>
 public class QuestionManager : MonoBehaviour
 {
-    public Text questionText;             // Text for displaying the question
-    public List<Button> answerButtons;    // Answer choice buttons (multiple choice)
+    [Header("UI Elements")]
+    public Text questionText;                 // UI Text to display the question
+    public List<Button> answerButtons;       // List of buttons for answer choices
+    [SerializeField] private Slider timerSlider; // Slider to visually represent the timer
 
-    private QuestionData questionData;    // Loaded JSON data
-    private Question currentQuestion;     // The current question being displayed
-    private UIManager uiManager;
+    [Header("Settings")]
+    [SerializeField] private int defaultTime = 20; // Default time for questions if points are invalid
 
-    [SerializeField] private int defaultTime = 20; // Default time in case the points are invalid or unspecified
-    [SerializeField] private Slider timerSlider;
+    [Header("Timer Variables")]
+    private float timeRemaining;             // Remaining time for the current question
+    private bool isTimerActive = false;      // Tracks if the timer is running
+    private bool isTimedOut = false;         // Tracks if the timer has reached zero
 
-    private float timeRemaining; // Tracks the remaining time for the question
-    private bool isTimerActive = false; // To control timer state
-    private bool isTimedOut = false;
+    [Header("Stealing Phase Variables")]
+    private bool isStealPhase = false;       // Tracks if the game is in the stealing phase
 
+    [Header("Question Data")]
+    private QuestionData questionData;       // Holds all loaded questions from JSON
+    private Question currentQuestion;        // The question currently being displayed
+
+    private UIManager uiManager;             // Reference to UIManager for managing panels and feedback
+
+    // Singleton Instance
     public static QuestionManager Instance { get; private set; }
 
-    void Awake()
+    #region Unity Callbacks
+    private void Awake()
     {
         // Ensure only one instance of the QuestionManager exists
         if (Instance == null)
@@ -33,41 +46,47 @@ public class QuestionManager : MonoBehaviour
             Destroy(gameObject); // Prevent duplicate instances
         }
     }
-
-    void Start()
+    private void Start()
     {
         LoadQuestions();
         uiManager = FindObjectOfType<UIManager>();
     }
 
-    void Update()
+    private void Update()
     {
         if (isTimerActive)
         {
-            timeRemaining -= Time.deltaTime; // Decrement time
+            timeRemaining -= Time.deltaTime;
             if (timeRemaining <= 0)
             {
                 timeRemaining = 0;
                 isTimerActive = false;
-
-                OnTimeUp(); // Handle time up
+                OnTimeUp(); // Handle time up logic
             }
-            UpdateTimerDisplay(); // Update the timer display
+            UpdateTimerDisplay(); // Update the timer slider
         }
     }
+    #endregion
 
-    // Loads question from JSON file
-    void LoadQuestions()
+    #region Question Logic
+    /// <summary>
+    /// Loads questions from a JSON file located in the Resources folder.
+    /// </summary>
+    private void LoadQuestions()
     {
-        TextAsset jsonText = Resources.Load<TextAsset>("questions");  // Load the JSON file
+        TextAsset jsonText = Resources.Load<TextAsset>("questions");
         questionData = JsonUtility.FromJson<QuestionData>(jsonText.text);
     }
 
-    // This function is called when a category button is clicked
+    /// <summary>
+    /// Handles category button clicks to display the appropriate question.
+    /// </summary>
+    /// <param name="selectedButton">The button that was clicked.</param>
     public void OnCategoryButtonClicked(Button selectedButton)
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.categoryClickSFX);
 
+        // Parse the button's name to determine the category and points
         string[] buttonInfo = selectedButton.name.Split('_');
         string categoryName = buttonInfo[0];
         int points = int.Parse(buttonInfo[1]);
@@ -82,9 +101,7 @@ public class QuestionManager : MonoBehaviour
                     {
                         currentQuestion = question;
                         DisplayQuestion();
-
-                        // Disable the button after selection
-                        selectedButton.interactable = false;
+                        selectedButton.interactable = false; // Disable the button after selection
                         return;
                     }
                 }
@@ -92,21 +109,20 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    void DisplayQuestion()
+    /// <summary>
+    /// Displays the current question and sets up answer buttons.
+    /// </summary>
+    private void DisplayQuestion()
     {
-        // Display the question text
         questionText.text = currentQuestion.question;
 
-        // Enable all buttons before displaying a new question
+        // Enable and populate answer buttons
         EnableAnswerButtons();
-
-        // Ensure we don't go beyond the available choices for this question
         int numberOfChoices = currentQuestion.choices.Count;
 
-        // Populate answer buttons
         for (int i = 0; i < answerButtons.Count; i++)
         {
-            if (i < currentQuestion.choices.Count)
+            if (i < numberOfChoices)
             {
                 answerButtons[i].gameObject.SetActive(true);
                 answerButtons[i].GetComponentInChildren<Text>().text = currentQuestion.choices[i];
@@ -114,9 +130,11 @@ public class QuestionManager : MonoBehaviour
                 string selectedAnswer = currentQuestion.choices[i];
                 Button selectedAnswerButton = answerButtons[i];
                 int points = currentQuestion.points;
+
+                // Assign button click logic
                 answerButtons[i].onClick.RemoveAllListeners();
                 answerButtons[i].onClick.AddListener(() => CheckAnswer(selectedAnswer, selectedAnswerButton, points));
-                answerButtons[i].GetComponent<Image>().color = Color.white;  // Reset button color
+                answerButtons[i].GetComponent<Image>().color = Color.white; // Reset button color
             }
             else
             {
@@ -124,183 +142,209 @@ public class QuestionManager : MonoBehaviour
             }
         }
 
-        // Hide the Return button initially
-        uiManager.returnButton.gameObject.SetActive(false);
-
-        // Show the Question Panel
-        uiManager.ShowQuestionPanel();
-
-        // Start the timer for this question
-        StartTimer();
+        uiManager.returnButton.gameObject.SetActive(false); // Hide the Return button initially
+        uiManager.ShowQuestionPanel(); // Display the Question Panel
+        StartTimer(); // Start the question timer
     }
+    #endregion
 
-    void CheckAnswer(string playerAnswer, Button selectedButton, int questionPoints) 
-    {
-        // Stop the timer and ticking sound
-        AudioManager.Instance.StopTickingSound();
-        isTimerActive = false;
-        timeRemaining = 0; // Optional: Reset timer to 0 for clarity
-        UpdateTimerDisplay(); // Ensure the UI reflects the stopped timer
-
-        bool isCorrect = false;
-        int teamIndex;
-
-        Debug.Log("hasBeenStolen:  " + currentQuestion.hasBeenStolen);
-
-        if (!isTimedOut) // If the answer was not timed out, check the player's answer
-        {
-            DisableAnswerButtons();
-
-            isCorrect = playerAnswer.Equals(currentQuestion.correctAnswer, System.StringComparison.OrdinalIgnoreCase);
-        }
-
-        // Change color based on correctness
-        if (isCorrect)
-        {
-            if (selectedButton != null)
-            {
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.correctAnswerSFX);
-
-                selectedButton.GetComponent<Image>().color = Color.green;  // Correct answer
-            }
-
-            if (currentQuestion.hasBeenStolen)
-            {
-                teamIndex = GameManager.Instance.currentStealTeamIndex;
-                Debug.Log("currentStealTeamIndex: " + teamIndex);
-                currentQuestion.hasBeenStolen = false;
-            }
-            else
-            {
-                teamIndex = GameManager.Instance.currentTeamIndex;
-                Debug.Log("currentTeamIndex: " + teamIndex);
-                GameManager.Instance.UpdateCoins(teamIndex);
-            }
-
-            Debug.Log("teamIndex: " + teamIndex);
-            GameManager.Instance.UpdateScore(teamIndex, questionPoints);
-            GameManager.Instance.EndTurn();
-
-            uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
-        }
-        else
-        {
-            if (selectedButton != null)
-            {
-                if(currentQuestion.hasBeenStolen)
-                {
-                    selectedButton.GetComponent<Image>().color = Color.grey;     // Incorrect answers to show grey
-                    uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);  // Highlight the correct answer
-                    currentQuestion.hasBeenStolen = false;
-                    uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
-                    GameManager.Instance.EndTurn();
-                }
-                else
-                {
-                    GameManager.Instance.AttemptStealQuestion(questionPoints);
-                }
-                AudioManager.Instance.PlaySFX(AudioManager.Instance.wrongAnswerSFX);
-            }
-            else
-            {
-                if (currentQuestion.hasBeenStolen)
-                {
-                    Debug.Log("Timed out second time and null button");
-                    uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);  // Highlight the correct answer
-                    currentQuestion.hasBeenStolen = false;
-                    uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
-                    GameManager.Instance.EndTurn();
-                }
-                else
-                {
-                    GameManager.Instance.AttemptStealQuestion(questionPoints);
-                }
-                
-            }
-        }
-
-        // Reset timeout flag after the answer has been processed
-        isTimedOut = false;
-    }
-
+    #region Timer Logic
+    /// <summary>
+    /// Starts the timer for the current question.
+    /// </summary>
     public void StartTimer()
     {
-        timeRemaining = GetMaxTimeForCurrentQuestion(); // Get time based on question points
-        isTimerActive = true; // Activate the timer
-        isTimedOut = false;   // Reset the timeout flag
+        timeRemaining = isStealPhase ? 3f : GetMaxTimeForCurrentQuestion();
+        isTimerActive = true;
+        isTimedOut = false;
 
         if (timerSlider != null)
         {
-            timerSlider.value = 1f; // Start with a full progress bar
+            timerSlider.value = 1f; // Reset slider
         }
 
-        //Start ticking sounds for clock
-        AudioManager.Instance.StartTickingSound();
+        AudioManager.Instance.StartTickingSound(); // Start ticking sound
     }
 
-    private float GetMaxTimeForCurrentQuestion()
-    {
-        switch (currentQuestion.points)
-        {
-            case 200: return 20f;
-            case 400: return 30f;
-            case 600: return 40f;
-            case 800: return 50f;
-            case 1000: return 60f;
-            default: return defaultTime; // Use default time if points are invalid
-        }
-    }
-
-    void UpdateTimerDisplay()
+    /// <summary>
+    /// Updates the timer slider based on the remaining time.
+    /// </summary>
+    private void UpdateTimerDisplay()
     {
         if (timerSlider != null)
         {
-            // Update the slider value based on the remaining time
             timerSlider.value = timeRemaining / GetMaxTimeForCurrentQuestion();
         }
     }
 
-    void OnTimeUp()
+    /// <summary>
+    /// Handles logic when the timer runs out.
+    /// </summary>
+    private void OnTimeUp()
     {
-        Debug.Log("Time's up!");
-
-        // Disable all answer buttons
         DisableAnswerButtons();
-
-        // Stop ticking sound
         AudioManager.Instance.StopTickingSound();
-
-        // Set the timeout flag to true
         isTimedOut = true;
-
-        Debug.Log("hasBeenStolen: " + currentQuestion.hasBeenStolen);
 
         if (currentQuestion.hasBeenStolen)
         {
-            // Call CheckAnswer with no player answer (empty or null)
-            CheckAnswer("", null, currentQuestion.points); // Passing dummy values
-
+            CheckAnswer("", null, currentQuestion.points); // Process timeout as incorrect answer
             uiManager.ShowTimeoutMessage();
         }
         else
         {
-            // Start a coroutine to show flash effect and then handle stealing
             StartCoroutine(HandleTimeoutWithFlash());
         }
     }
 
-    private IEnumerator HandleTimeoutWithFlash()
+    /// <summary>
+    /// Gets the maximum time allowed for the current question based on its point value.
+    /// </summary>
+    /// <returns>Max time in seconds.</returns>
+    private float GetMaxTimeForCurrentQuestion()
     {
-        // Show flash effect (e.g., 0.5 seconds duration)
-        yield return StartCoroutine(uiManager.FlashEffect());
-
-        // Add a delay before showing the steal panel
-        yield return new WaitForSeconds(0.5f);
-
-        // Show the steal panel
-        GameManager.Instance.AttemptStealQuestion(currentQuestion.points);
+        return currentQuestion.points switch
+        {
+            200 => 10f,
+            400 => 20f,
+            600 => 30f,
+            800 => 40f,
+            1000 => 50f,
+            _ => defaultTime, // Default if points are invalid
+        };
     }
+    #endregion
 
+    #region Answer Checking
+    /// <summary>
+    /// Validates the player's answer and updates scores or initiates stealing logic.
+    /// </summary>
+    void CheckAnswer(string playerAnswer, Button selectedButton, int questionPoints)
+    {
+        // Timer and UI adjustments
+        AudioManager.Instance.StopTickingSound();
+        isTimerActive = false;
+        UpdateTimerDisplay();
+
+        // Determine if the answer is correct
+        bool isCorrect = false;
+
+        // Check if the question was answered within the time limit
+        if (!isTimedOut)
+        {
+            DisableAnswerButtons(); // Disable answer buttons after the selection
+
+            // Compare player's answer to the correct answer (case insensitive)
+            isCorrect = playerAnswer.Equals(currentQuestion.correctAnswer, System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Handle correct answer scenario
+        if (isCorrect)
+        {
+            HandleCorrectAnswer(selectedButton, questionPoints);
+        }
+        else
+        {
+            HandleIncorrectAnswer(selectedButton, questionPoints);
+        }
+
+        // Reset timeout flag after processing the answer
+        isTimedOut = false;
+    }
+    private void HandleCorrectAnswer(Button selectedButton, int questionPoints)
+    {
+        // Play the correct answer sound and change button color to green
+        if (selectedButton != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.correctAnswerSFX);
+            selectedButton.GetComponent<Image>().color = Color.green;
+        }
+
+        int teamIndex = GetTeamIndexForCorrectAnswer();
+
+        // Update the score for the team
+        GameManager.Instance.UpdateScore(teamIndex, questionPoints);
+        GameManager.Instance.UpdateCoins(teamIndex);
+
+        // End the turn
+        GameManager.Instance.EndTurn();
+
+        // Display the return button after answering
+        uiManager.returnButton.gameObject.SetActive(true);
+
+        // Handle if the question has been stolen
+        if (currentQuestion.hasBeenStolen)
+        {
+            currentQuestion.hasBeenStolen = false;
+            isStealPhase = false; // Exit the steal phase
+        }
+    }
+    private int GetTeamIndexForCorrectAnswer()
+    {
+        int teamIndex;
+
+        if (currentQuestion.hasBeenStolen)
+        {
+            // If the question was stolen, use the stealing team's index
+            teamIndex = GameManager.Instance.currentStealTeamIndex;
+            Debug.Log("currentStealTeamIndex: " + teamIndex);
+        }
+        else
+        {
+            // Otherwise, use the current team index
+            teamIndex = GameManager.Instance.currentTeamIndex;
+            Debug.Log("currentTeamIndex: " + teamIndex);
+        }
+
+        return teamIndex;
+    }
+    private void HandleIncorrectAnswer(Button selectedButton, int questionPoints)
+    {
+        // Handle incorrect answer by checking if the question was stolen
+        if (selectedButton != null)
+        {
+            if (currentQuestion.hasBeenStolen)
+            {
+                // If the question was stolen, show grey button color, highlight the correct answer, and end turn
+                selectedButton.GetComponent<Image>().color = Color.grey;
+                uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);
+                currentQuestion.hasBeenStolen = false;
+                isStealPhase = false;
+
+                // End the turn and show the return button
+                uiManager.returnButton.gameObject.SetActive(true);
+                GameManager.Instance.EndTurn();
+            }
+            else
+            {
+                // If not stolen, attempt to steal the question
+                GameManager.Instance.AttemptStealQuestion(questionPoints);
+            }
+
+            // Play wrong answer sound
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.wrongAnswerSFX);
+        }
+        else
+        {
+            // If no button was selected (timed out or something else), handle accordingly
+            if (currentQuestion.hasBeenStolen)
+            {
+                Debug.Log("Timed out second time and null button");
+                uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);  // Highlight the correct answer
+                currentQuestion.hasBeenStolen = false;
+                isStealPhase = false; // Exit the steal phase
+                uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
+                GameManager.Instance.EndTurn();
+            }
+            else
+            {
+                GameManager.Instance.AttemptStealQuestion(questionPoints);
+            }
+        }
+    }
+    #endregion
+
+    #region Helper Methods
     public void DisableAnswerButtons()
     {
         foreach (Button button in answerButtons)
@@ -316,13 +360,26 @@ public class QuestionManager : MonoBehaviour
             button.interactable = true;
         }
     }
+    private IEnumerator HandleTimeoutWithFlash()
+    {
+        // Show flash effect (e.g., 0.5 seconds duration)
+        yield return StartCoroutine(uiManager.FlashEffect());
 
-    /* STEALING LOGIC */
+        // Add a delay before showing the steal panel
+        yield return new WaitForSeconds(0.5f);
+
+        // Show the steal panel
+        GameManager.Instance.AttemptStealQuestion(currentQuestion.points);
+    }
+    #endregion
+
+    #region Stealing Logic
     public void ResetQuestionForStealing()
     {
         Debug.Log("Resetting question for stealing team.");
 
         currentQuestion.hasBeenStolen = true;
+        isStealPhase = true; // Set steal phase active
 
         // Display the current question again
         questionText.text = currentQuestion.question;
@@ -351,4 +408,5 @@ public class QuestionManager : MonoBehaviour
         // Reset timer for the stealing team
         StartTimer();
     }
+    #endregion
 }
