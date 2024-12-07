@@ -354,8 +354,8 @@ public class UIManager : MonoBehaviour
 
 
 
-/*STEAL LOGIC*/
-public void OnYesButtonClicked()
+    /*STEAL LOGIC*/
+    public void OnYesButtonClicked()
     {
         AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
         teamHasStolen = true; // Mark as stolen

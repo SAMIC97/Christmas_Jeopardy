@@ -5,29 +5,36 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject teamsPanelPrefab;     // Prefab for team display w/image and text
-    public Transform teamsPanelParent;      // Panel to display the number of teams in Gameboard
-    //public Sprite[] teamIcons;              //Icons to use for team setup
-    public Text coinCountText; // Reference to the coin count text
+    [Header("UI References")]
+    public GameObject teamsPanelPrefab;     // Prefab for team display (e.g., scores, coins)
+    public Transform teamsPanelParent;      // Parent panel to hold team score displays
+    public Text coinCountText;              // Reference to the coin count text
+    //public Sprite[] teamIcons;            //In case of using icons to use for team setup
 
-    public int answeredQuestions = 0;       // Track the number of answered questions
-       
-    private int totalQuestions = 30;        // Set this to the total number of questions
-    public int currentTeamIndex = 0;       // To keep track of the team's turn
+    [Header("Game Settings")]
+    public int totalQuestions = 30;         // Total number of questions for the game
+    public int questionValue;               // Current question value
 
-    public int currentStealTeamIndex;
-    public int questionValue;
-    private Queue<int> stealQueue;
+    [Header("Team Management")]
+    public int currentTeamIndex = 0;        // Index of the current team's turn
+    public int currentStealTeamIndex;       // Index of the team attempting to steal
+    private Queue<int> stealQueue;          // Queue to manage stealing order
 
-    private UIManager uiManager;
+    [Header("Track Progress")]
+    public int answeredQuestions = 0;       // Number of questions answered
+
+    // Singleton instance
     public static GameManager Instance { get; private set; }
 
-    void Awake()
+    private UIManager uiManager;
+
+    private void Awake()
     {
+        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this instance alive across scenes (optional)
+            DontDestroyOnLoad(gameObject); // Keep this instance alive across scenes
         }
         else
         {
@@ -35,180 +42,120 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         uiManager = FindObjectOfType<UIManager>();
         AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
     }
-    /*
-    private void ValidateInput(string input)
-    {
-        // Remove non-numeric characters
-        string numericInput = "";
-        foreach (char c in input)
-        {
-            if (char.IsDigit(c)) numericInput += c;
-        }
 
-        // Limit the number of teams to maxTeams
-        if (int.TryParse(numericInput, out int numTeams))
-        {
-            if (numTeams > maxTeams)
-            {
-                // Clear the input and show placeholder message
-                numericInput = "";
-                placeholderText.text = "Se permiten máximo 10 equipos.";
-                StartCoroutine(ResetPlaceholderAfterDelay(2f)); // Reset after 2 seconds
-            }
-            else
-            {
-                // Reset placeholder to default if input is valid
-                placeholderText.text = "Ingrese número de equipos";
-            }
-        }
+    #region Team Setup and UI Updates
 
-        // Update the InputField text
-        teamInputField.text = numericInput;
-    }*/
-    /*
-    public void OnConfirmTeams()
-    {
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.buttonClickSFX);
-
-        int teamCount;
-        if (int.TryParse(teamInputField.text, out teamCount) && teamCount > 0)
-        {
-            CreateScorePanels(teamCount);
-
-            uiManager.teamSetupPanel.SetActive(false);
-            uiManager.gameBoardPanel.SetActive(true);
-
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.backgroundMusic);
-
-            // Set the first team as the one to start
-            uiManager.teams[currentTeamIndex].isTurn = true;
-            UpdateTurnDisplay();
-        }
-        else
-        {
-            Debug.LogError("Invalid team count entered.");
-        }
-    }*/
-
+    /// <summary>
+    /// Creates the team score panels and initializes their data.
+    /// </summary>
+    /// <param name="teamCount">Number of teams in the game.</param>
     public void CreateScorePanels(int teamCount)
     {
+        // Clear existing panels
         foreach (Transform child in teamsPanelParent)
         {
             Destroy(child.gameObject);
         }
 
+        // Clear team list
         uiManager.teams.Clear();
-        List<int> usedIcons = new List<int>();
 
         for (int i = 0; i < teamCount; i++)
         {
             // Create a new team
-            Team newTeam = new Team { teamName = "Team " + (i + 1) };
+            Team newTeam = new Team { teamName = "Equipo " + (i + 1) };
             uiManager.teams.Add(newTeam);
 
             // Instantiate the score panel
             GameObject scorePanel = Instantiate(teamsPanelPrefab, teamsPanelParent);
 
-            // Set the team name in the score panel
-            Transform teamPanel = teamsPanelParent.GetChild(i); // Get the current team's panel
-            Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>(); // Navigate the hierarchy
-            scoreText.text = newTeam.teamName + ": 0";
+            // Set the team name and initial score
+            Transform teamPanel = teamsPanelParent.GetChild(i);
+            Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>();
+            scoreText.text = $"{newTeam.teamName}: 0";
 
-            // Set the coin in the coins panel
-            Text coinText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>(); // Navigate the hierarchy
+            // Set the initial coin count
+            Text coinText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>();
             coinText.text = newTeam.coins.ToString();
 
-            /*
-            // Assign a random icon
-            Transform iconPanel = scorePanel.transform.Find("Panel Icon/Image Icon");
-            if (iconPanel != null)
-            {
-                Image iconImage = iconPanel.GetComponent<Image>();
-                int randomIndex;
-                do
-                {
-                    randomIndex = Random.Range(0, teamIcons.Length);
-                } while (usedIcons.Contains(randomIndex)); // Ensure unique icons
-                usedIcons.Add(randomIndex);
-                iconImage.sprite = teamIcons[randomIndex];
-            }
-            else
-            {
-                Debug.LogError("Icon not found in prefab! Check your hierarchy.");
-            }*/
-
-            newTeam.scorePanel = scorePanel;  // Store the score panel in the team
+            // Store the score panel in the team
+            newTeam.scorePanel = scorePanel;
         }
     }
 
+    /// <summary>
+    /// Updates the UI to highlight the active team's turn.
+    /// </summary>
     public void UpdateTurnDisplay()
     {
-        Color activeColor = new Color(0f, 1f, 0f, 0.5f);  // Green with 50% transparency
-        Color inactiveColor = new Color(1f, 1f, 1f, 0f);   // White with full opacity
+        Color activeColor = new Color(0f, 1f, 0f, 0.5f);  // Semi-transparent green
+        Color inactiveColor = new Color(1f, 1f, 1f, 0f);   // Fully transparent white
 
         // Highlight the current team's panel
         for (int i = 0; i < uiManager.teams.Count; i++)
         {
-            if (i == currentTeamIndex)
-            {
-                // Change color to indicate this team's turn
-                uiManager.teams[i].scorePanel.GetComponent<Image>().color = activeColor;
-            }
-            else
-            {
-                // Reset color for other teams
-                uiManager.teams[i].scorePanel.GetComponent<Image>().color = inactiveColor;
-            }
+            uiManager.teams[i].scorePanel.GetComponent<Image>().color =
+                i == currentTeamIndex ? activeColor : inactiveColor;
         }
 
-        Debug.Log(uiManager.teams[currentTeamIndex].teamName + "'s turn to play!");
-        Debug.Log(uiManager.teams[currentTeamIndex].coins + "'s coins");
+        Debug.Log($"{uiManager.teams[currentTeamIndex].teamName}'s turn to play!");
+        Debug.Log($"{uiManager.teams[currentTeamIndex].coins} coins available.");
     }
 
+    /// <summary>
+    /// Updates the score of a specified team.
+    /// </summary>
+    /// <param name="teamIndex">Index of the team.</param>
+    /// <param name="points">Points to add to the team's score.</param>
     public void UpdateScore(int teamIndex, int points)
     {
-        Debug.Log("teamIndex: " + teamIndex);
-
-        // Add points to the current team's score
         uiManager.teams[teamIndex].score += points;
 
         // Update score display in UI
-        Transform teamPanel = teamsPanelParent.GetChild(teamIndex); // Get the current team's panel
-        Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>(); // Navigate the hierarchy
-        scoreText.text = uiManager.teams[teamIndex].teamName + ": " + uiManager.teams[teamIndex].score;
+        Transform teamPanel = teamsPanelParent.GetChild(teamIndex);
+        Text scoreText = teamPanel.Find("Panel Scores/Text Score").GetComponent<Text>();
+        scoreText.text = $"{uiManager.teams[teamIndex].teamName}: {uiManager.teams[teamIndex].score}";
     }
 
-    // Award 1 coin if the answering team is the current team
+    /// <summary>
+    /// Updates the coin count for a specified team.
+    /// </summary>
+    /// <param name="teamIndex">Index of the team.</param>
     public void UpdateCoins(int teamIndex)
     {
         if (uiManager.teams[teamIndex].coins < 5)
         {
             uiManager.teams[teamIndex].GainCoin();
-            UpdateTeamCoins(teamIndex);
+            UpdateCoinCount(teamIndex, uiManager.teams[teamIndex].coins);
         }
 
-        Debug.Log("Coins Total: " + uiManager.teams[teamIndex].coins);
+        Debug.Log($"Total Coins: {uiManager.teams[teamIndex].coins}");
     }
 
-    public void UpdateTeamCoins(int teamIndex)
-    {
-        int coins = uiManager.teams[teamIndex].coins;
-        UpdateCoinCount(teamIndex, coins);
-    }
-
-    // Method to update the displayed coin count
+    /// <summary>
+    /// Updates the displayed coin count for a team.
+    /// </summary>
+    /// <param name="teamIndex">Index of the team.</param>
+    /// <param name="coins">New coin count.</param>
     public void UpdateCoinCount(int teamIndex, int coins)
     {
-        Transform teamPanel = teamsPanelParent.GetChild(teamIndex); // Get the current team's panel
-        Text coinCountText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>(); // Navigate the hierarchy
+        Transform teamPanel = teamsPanelParent.GetChild(teamIndex);
+        Text coinCountText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>();
         coinCountText.text = coins.ToString();
     }
-    
+
+    #endregion
+
+    #region Turn Management
+
+    /// <summary>
+    /// Ends the current team's turn and moves to the next team.
+    /// </summary>
     //End turn of current team and proceed with next one
     public void EndTurn()
     {
@@ -223,47 +170,48 @@ public class GameManager : MonoBehaviour
         UpdateTurnDisplay();
     }
 
-    //Checks if game it's over
+    /// <summary>
+    /// Checks if the game has ended by verifying answered questions.
+    /// </summary>
     public void CheckForGameEnd()
     {
         if (answeredQuestions >= totalQuestions)
         {
             uiManager.ShowWinningPanel();
-            totalQuestions = 3;
             answeredQuestions = 0;
         }
     }
+    #endregion
 
+    #region Steal Logic
 
-    /* STEA LOGIC */
+    /// <summary>
+    /// Initiates the steal phase for eligible teams.
+    /// </summary>
+    /// <param name="questionValue">Value of the question to be stolen.</param>
     public void AttemptStealQuestion(int questionValue)
     {
-        // Determine which teams have enough coins to steal
-        Queue<int> eligibleTeams = new Queue<int>();
-
+        stealQueue = new Queue<int>();
         int totalTeams = uiManager.teams.Count;
-        int startingTeamIndex = (currentTeamIndex + 1) % totalTeams; // Start with the next team
 
-        // Add teams in order starting from the next one after the current team
+        // Check eligibility for stealing
         for (int i = 0; i < totalTeams; i++)
         {
-            int teamIndex = (startingTeamIndex + i) % totalTeams; // Loop around to the beginning
-
+            int teamIndex = (currentTeamIndex + 1 + i) % totalTeams;
             if (teamIndex != currentTeamIndex && uiManager.teams[teamIndex].coins >= GetCoinCost(questionValue))
             {
-                eligibleTeams.Enqueue(teamIndex);
+                stealQueue.Enqueue(teamIndex);
             }
         }
 
-        if (eligibleTeams.Count == 0)
+        if (stealQueue.Count == 0)
         {
-            Debug.Log("No teams have enough coins to steal.");
-            EndStealPhase(); // Continue the game if no one can steal
+            Debug.Log("No teams can afford to steal.");
+            EndStealPhase();
             return;
         }
 
-        // Start the steal attempt process
-        StartCoroutine(DelayBeforeSteal(eligibleTeams, questionValue));
+        StartCoroutine(DelayBeforeSteal(stealQueue, questionValue));
     }
 
     private IEnumerator DelayBeforeSteal(Queue<int> eligibleTeams, int questionValue)
@@ -315,16 +263,16 @@ public class GameManager : MonoBehaviour
         EndStealPhase(); // No team chose to steal, end the phase
     }
 
+    /// <summary>
+    /// Handles stealing logic when a team decides to steal.
+    /// </summary>
     public void HandleSteal(int teamIndex, int questionValue)
     {
-        Debug.Log("teamIndex HandleSteal: " + teamIndex);
         int coinCost = GetCoinCost(questionValue);
-        uiManager.teams[teamIndex].coins -= coinCost; // Deduct coins
+        uiManager.teams[teamIndex].coins -= coinCost;
         UpdateCoinCount(teamIndex, uiManager.teams[teamIndex].coins);
 
-        Debug.Log($"Team {uiManager.teams[teamIndex].teamName} paid {coinCost} coins to steal.");
-
-        // Reset the question for the stealing team
+        Debug.Log($"Team {uiManager.teams[teamIndex].teamName} stole the question!");
         QuestionManager.Instance.ResetQuestionForStealing();
     }
 
@@ -342,4 +290,5 @@ public class GameManager : MonoBehaviour
         uiManager.buttonAnswerPanel.SetActive(true);
         EndTurn(); // Continue to the next turn
     }
+    #endregion
 }
