@@ -6837,7 +6837,7 @@ MonoBehaviour:
   correctAnswerSFX: {fileID: 8300000, guid: 29f7f69910fb14349b6f0c8a2f767fdc, type: 3}
   wrongAnswerSFX: {fileID: 8300000, guid: 3cd35fd065cb57c4eb3e6b266db6724f, type: 3}
   timeTickingSFX: {fileID: 8300000, guid: 652a1ec6ac8716b4a93ab4bd6703b7a8, type: 3}
-  grichLaughSFX: {fileID: 8300000, guid: 213b1b318e4a6c248908032c2d1e2bd5, type: 3}
+  grichLaughSFX: {fileID: 8300000, guid: 09ea25b0d09769545a7dad32a6dcee3f, type: 3}
 --- !u!4 &1185241789
 Transform:
   m_ObjectHideFlags: 0

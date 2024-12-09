@@ -181,7 +181,7 @@
         {
           "question": "'¡Feliz Navidad, animal inmundo!' es una frase famosa de qué película?",
           "choices": ["Mi pobre angelito 2: Perdido en Nueva York", "Mi pobre Angelito", "Elf", "Santa Clausula"],
-          "correctAnswer": "Mi pobre angelito 2: Perdido en New York",
+          "correctAnswer": "Mi pobre angelito 2: Perdido en Nueva York",
           "points": 200
         },
         {

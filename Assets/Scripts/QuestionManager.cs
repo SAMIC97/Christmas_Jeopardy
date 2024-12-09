@@ -154,7 +154,7 @@ public class QuestionManager : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        timeRemaining = isStealPhase ? 3f : GetMaxTimeForCurrentQuestion();
+        timeRemaining = isStealPhase ? 5f : GetMaxTimeForCurrentQuestion();
         isTimerActive = true;
         isTimedOut = false;
 
@@ -264,8 +264,7 @@ public class QuestionManager : MonoBehaviour
 
         // Update the score for the team
         GameManager.Instance.UpdateScore(teamIndex, questionPoints);
-        GameManager.Instance.UpdateCoins(teamIndex);
-
+        
         // End the turn
         GameManager.Instance.EndTurn();
 
@@ -277,6 +276,10 @@ public class QuestionManager : MonoBehaviour
         {
             currentQuestion.hasBeenStolen = false;
             isStealPhase = false; // Exit the steal phase
+        }
+        else
+        {
+            GameManager.Instance.UpdateCoins(teamIndex);
         }
     }
     private int GetTeamIndexForCorrectAnswer()

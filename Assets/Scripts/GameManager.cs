@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
         Transform teamPanel = teamsPanelParent.GetChild(teamIndex);
         Text coinCountText = teamPanel.Find("Panel Coins/Text Coins").GetComponent<Text>();
         coinCountText.text = coins.ToString();
+        Debug.Log($"Update Coins of: {uiManager.teams[teamIndex].coins} has {coins}");
     }
 
     #endregion
@@ -175,7 +176,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CheckForGameEnd()
     {
-        if (answeredQuestions >= totalQuestions)
+        if (answeredQuestions == totalQuestions)
         {
             uiManager.ShowWinningPanel();
             answeredQuestions = 0;
@@ -222,7 +223,7 @@ public class GameManager : MonoBehaviour
         // Show a transition panel during the delay
         uiManager.stealMessagePanel.SetActive(true);
 
-        yield return new WaitForSeconds(1.0f); // Wait for 3 seconds
+        yield return new WaitForSeconds(3.0f); // Wait for 3 seconds
 
         // Hide the transition panel before showing the steal panel
         uiManager.stealMessagePanel.SetActive(false);
