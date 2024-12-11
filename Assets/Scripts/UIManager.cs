@@ -283,6 +283,10 @@ public class UIManager : MonoBehaviour
 
     public void ResetGame()
     {
+
+        // Reset questions for replay
+        QuestionManager.Instance.ResetQuestions();
+
         // Clear the list of teams
         teams.Clear();
 
@@ -300,7 +304,6 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlayMusic(AudioManager.Instance.mainMenuMusic);
 
         // Reset any other UI elements or game variables
-        //HideTimeoutMessage();
         victory = false;
     }
 
