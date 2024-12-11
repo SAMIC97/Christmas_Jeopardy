@@ -2,11 +2,24 @@
   "categories": [
     {
       "name": "Movies",
-      "questions": [
+      "questions": 
+      [
         {
           "question": "¿En qué película navideña de 1990 un niño se queda solo en casa y debe defender su hogar de dos ladrones?",
           "choices": ["Mi Pobre Angelito", "Cuento de Navidad", "Pesadilla antes de Navidad", "El Expreso Polar"],
           "correctAnswer": "Mi Pobre Angelito",
+          "points": 200
+        },
+        {
+          "question": "¿Jim Carrey interpreta a este personaje en la versión de 2000 de esta pelicula?",
+          "choices": ["Elf", "Cuento de Navidad", "Pesadilla antes de Navidad", "El Grinch"],
+          "correctAnswer": "El Grinch",
+          "points": 200
+        },
+        {
+          "question": "¿Quién interpreta a Buddy, el elfo, en la película Elf (2003)?",
+          "choices": ["Will Ferrell", "Jim Carrey", "Tim Allen", "Steve Carell"],
+          "correctAnswer": "Will Ferrell",
           "points": 200
         },
         {
@@ -16,9 +29,33 @@
           "points": 400
         },
         {
+          "question": "¿Qué actor interpreta a Jack Frost en la película homónima de 1998, donde un hombre se convierte en un muñeco de nieve?",
+          "choices": ["George Clooney", "Michael Keaton", "Mel Gibson", "Robin Williams"],
+          "correctAnswer": "Michael Keaton",
+          "points": 400
+        },
+        {
+          "question": "En The Nightmare Before Christmas (1993), ¿qué usa Jack Skellington como sombrero cuando se disfraza de Santa Claus?",
+          "choices": ["Un sombrero hecho de nieve", "Una funda de almohada roja", "Un sombrero de copa rojo", "Un gorro tradicional de Santa"],
+          "correctAnswer": "El Polo Norte",
+          "points": 400
+        },
+        {
           "question": "¿Qué regalo busca frenéticamente Arnold Schwarzenegger en El regalo prometido (1996)?",
           "choices": ["TurboMan", "Buster", "Power Ranger Rojo", "Stretch Armstrong"],
           "correctAnswer": "TurboMan",
+          "points": 600
+        },
+        {
+          "question": " En The Holiday (2006), ¿qué ciudad británica visita el personaje de Cameron Diaz?",
+          "choices": ["Londres", "Bristol", "Manchester", "Surrey"],
+          "correctAnswer": " Surrey ",
+          "points": 600
+        },
+        {
+          "question": “En la miniserie navideña de Netflix, Dash y Lily (2020), ¿en qué librería de Nueva York Dash encuentra por primera vez el cuaderno rojo de Lily?",
+          "choices": ["Strand Bookstore”, “Barnes & Noble”, “Books Are Magic”, “Shakespeare & Co."],
+          "correctAnswer": "Strand Bookstore",
           "points": 600
         },
         {
@@ -28,9 +65,33 @@
           "points": 800
         },
         {
-          "question": "En la película animada Klaus (2019), ¿qué hace que Jesper, el cartero, cambie su actitud al principio de la película?",
-          "choices": ["La amenaza de ser desheredado", "La amistad con Klaus", "La soledad en Smeerensburg", "El rechazo de los niños del pueblo"],
-          "correctAnswer": "La amenaza de ser desheredado",
+          "question": "¿Qué canción canta Bill Nighy como una parodia en Love Actually?",
+          "choices": ["Jingle Bell Rock", "Rockin Around the Christmas Tree", "Santa Is All Around", "Christmas Is All Around"],
+          "correctAnswer": "Christmas Is All Around",
+          "points": 800
+        },
+        {
+          "question": "En la película El Origen de los Guardines (2012), ¿eué objeto mágico conecta a Jack Frost con sus recuerdos humanos?",
+          "choices": [“Un colgante de hielo”, “Una figura de madera”, “Un diente de leche”, “Un bastón mágico”],
+          "correctAnswer": "Un diente de leche",
+          "points": 800
+        },
+        {
+          "question": "En un episidio de The Big Bang Theory, ¿qué le regala Penny a Sheldon por Navidad que provoca una reacción emocional intensa?",
+          "choices": ["Un modelo coleccionable de la Estrella de la Muerte", "Una servilleta firmada por Leonard Nimoy", "Una figura de acción de Spock", "Un libro de física autografiado"],
+          "correctAnswer": "Una servilleta firmada por Leonard Nimoy",
+          "points": 1000
+        },
+        {
+          "question": "En la película animada Klaus (2019), ¿cómo se llama la isla a donde envían a Jesper?",
+          "choices": ["Smirenburg", "Orimenburg", "Smeerenburg", "Omirenburg"],
+          "correctAnswer": "Smeerenburg ",
+          "points": 1000
+        },
+        {
+          "question": "Arthur Christmas (2011), ¿cuál es el nombre del hermano mayor de Arthur?",
+          "choices": ["Steve", "Bob", "Fred", "George"],
+          "correctAnswer": "Steve",
           "points": 1000
         }
       ]
