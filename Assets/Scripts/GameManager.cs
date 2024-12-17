@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
             currentStealTeamIndex = stealQueue.Dequeue();
 
             // Update panel message
-            uiManager.stealMessageText.text = $"Equipo {uiManager.teams[currentStealTeamIndex].teamName}. ¿Quieres robar esta pregunta por {GetCoinCost(questionValue)} monedas?";
+            uiManager.stealMessageText.text = $"Equipo {uiManager.teams[currentStealTeamIndex].teamName}. ¿Quieres robar esta pregunta por {GetCoinCost(questionValue)} moneda(s)?";
 
             // Show the steal panel and wait for input
             uiManager.stealPanel.SetActive(true);
