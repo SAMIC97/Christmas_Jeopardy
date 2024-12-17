@@ -53,9 +53,9 @@
           "points": 600
         },
         {
-          "question": “En la miniserie navideña de Netflix, Dash y Lily (2020), ¿en qué librería de Nueva York Dash encuentra por primera vez el cuaderno rojo de Lily?",
-          "choices": ["Strand Bookstore”, “Barnes & Noble”, “Books Are Magic”, “Shakespeare & Co."],
-          "correctAnswer": "Strand Bookstore",
+          "question": "¿Qué objeto olvidan comprar los Kranks para su hija Blair, que causa un gran problema en Navidad con los Kranks?",
+          "choices": ["Un pavo", "Un árbol de Navidad", "Un jamón", "Una guirnalda"],
+          "correctAnswer": "Un jamón",
           "points": 600
         },
         {
@@ -65,19 +65,19 @@
           "points": 800
         },
         {
-          "question": "¿Qué canción canta Bill Nighy como una parodia en Love Actually?",
+          "question": "¿Qué canción canta Bill Nighy como una parodia en Realmente Amor?",
           "choices": ["Jingle Bell Rock", "Rockin Around the Christmas Tree", "Santa Is All Around", "Christmas Is All Around"],
           "correctAnswer": "Christmas Is All Around",
           "points": 800
         },
         {
-          "question": "En la película El Origen de los Guardines (2012), ¿eué objeto mágico conecta a Jack Frost con sus recuerdos humanos?",
-          "choices": [“Un colgante de hielo”, “Una figura de madera”, “Un diente de leche”, “Un bastón mágico”],
+          "question": "En la película El Origen de los Guardines (2012), ¿qué objeto mágico conecta a Jack Frost con sus recuerdos humanos?",
+          "choices": ["Un colgante de hielo", "Una figura de madera", "Un diente de leche", "Un bastón mágico"],
           "correctAnswer": "Un diente de leche",
           "points": 800
         },
         {
-          "question": "En un episidio de The Big Bang Theory, ¿qué le regala Penny a Sheldon por Navidad que provoca una reacción emocional intensa?",
+          "question": "En un episodio de The Big Bang Theory, ¿qué le regala Penny a Sheldon por Navidad que provoca una reacción emocional intensa?",
           "choices": ["Un modelo coleccionable de la Estrella de la Muerte", "Una servilleta firmada por Leonard Nimoy", "Una figura de acción de Spock", "Un libro de física autografiado"],
           "correctAnswer": "Una servilleta firmada por Leonard Nimoy",
           "points": 1000
@@ -106,9 +106,33 @@
           "points": 200
         },
         {
-          "question": "En la canción Last Christmas de Wham!, ¿qué le dio el cantante a su amor?",
+          "question": "En el villancico 'Rodolfo el Reno', ¿qué característica física lo hace especial?",
+          "choices": ["Sus grandes orejas", "Su nariz roja brillante", "Su cola dorada", "Sus patas rápidas"],
+          "correctAnswer": "Su nariz roja brillante",
+          "points": 200
+        },
+        {
+          "question": "¿Qué significa 'turu turu' en el villancico 'El Burrito Sabanero'?",
+          "choices": ["El ruido de las campanas", "El sonido de los pasos del burrito", "El trote del burrito", "Un adorno musical sin significado"],
+          "correctAnswer": "El trote del burrito",
+          "points": 200
+        },
+        {
+          "question": "¿Qué significa 'turu turu' en el villancico 'El Burrito Sabanero'?",
           "choices": ["Su corazón", "Un regalo especial", "Un beso bajo el muérdago", "Un abrazo"],
           "correctAnswer": "Su corazón",
+          "points": 400
+        },
+        {
+          "question": "En el villancico 'Campana sobre campana', ¿qué se lleva el pastor al portal de Belén?",
+          "choices": ["Pan y miel", "Un tambor", "Queso y vino", "Un cordero"],
+          "correctAnswer": "Pan y miel",
+          "points": 400
+        },
+        {
+          "question": "¿Cuál es la primera frase del villancico 'Noche de Paz'?",
+          "choices": ["Todo duerme en derredor", "Noche de paz, noche de amor", "Hoy ha nacido el Salvador", "Todo está en calma"],
+          "correctAnswer": "Noche de paz, noche de amor",
           "points": 400
         },
         {
@@ -118,15 +142,51 @@
           "points": 600
         },
         {
+          "question": "¿El villancico 'Noche de Paz' fue compuesto en el año 18XX?",
+          "choices": ["1817", "1818", "1853", "1852"],
+          "correctAnswer": "1818",
+          "points": 600
+        },
+        {
+          "question": "¿Qué animal acompaña a los pastores en el villancico 'A la Nanita Nana'?",
+          "choices": ["Un buey", "Un burro", "Una oveja", "Un cordero"],
+          "correctAnswer": "Un buey",
+          "points": 600
+        },
+        {
           "question": "¿En qué año se lanzó originalmente la canción 'All I Want for Christmas Is You' de Mariah Carey?",
           "choices": ["1995", "1994", "1998", "2000"],
           "correctAnswer": "1994",
           "points": 800
         },
         {
+          "question": "¿Qué famoso cantante mexicano interpretó 'Navidad, Navidad, Blanca Navidad' en un álbum navideño?",
+          "choices":["Luis Miguel", "Vicente Fernández", "Juan Gabriel", "José José"],
+          "correctAnswer": "Luis Miguel",
+          "points": 800
+        },
+        {
+          "question": "¿Qué villancico incluye la frase: 'Hacia Belén va una burra, rin, rin'?",
+          "choices": ["La Marimorena", "Campana sobre campana", "El Burrito de Belén", "Los Peces en el Río"],
+          "correctAnswer": "La Marimorena",
+          "points": 800
+        },
+        {
           "question": "¿En qué idioma se cantó originalmente el villancico Noche de Paz?",
           "choices": ["Inglés", "Alemán", "Latín", "Italiano"],
           "correctAnswer": "Alemán",
+          "points": 1000
+        },
+        {
+          "question": "En la canción 'Blanca Navidad', ¿qué se desea en la primera línea de la versión en español?",
+          "choices": ["Que el amor brille en tu hogar", "Que la paz reine en Navidad", "Que la blanca Navidad llegue ya", "Que tus sueños sean de felicidad"],
+          "correctAnswer": "Que tus sueños sean de felicidad",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué villancico fue adaptado y popularizado por el mariachi como un género típico en México?",
+          "choices": ["Campana sobre campana", "A la Nanita Nana", "El Niño del Tambor", "Los Peces en el Río"],
+          "correctAnswer": "Los Peces en el Río",
           "points": 1000
         }
       ]
@@ -141,9 +201,33 @@
           "points": 200
         },
         {
+          "question": "¿Qué reyes magos llevaron oro, incienso y mirra al niño Jesús?",
+          "choices": [ "Gaspar, Melchor y Baltasar","Herodes, Pilatos y Baltasar", "Melchor, Gaspar y José", "Juan, Pablo y Lucas" ],
+          "correctAnswer": "Gaspar, Melchor y Baltasar",
+          "points": 200
+        },
+        {
+          "question":  "¿Qué representa la estrella en la punta de los árboles de Navidad?",
+          "choices": ["La estrella de Belén", "La luz de la esperanza", "El nacimiento de Jesús", "La guía de los pastores"],
+          "correctAnswer": "La estrella de Belén",
+          "points": 200
+        },
+        {
           "question": "¿Quién es tradicionalmente conocido como el precursor de Santa Claus debido a su generosidad y actos de bondad hacia los niños?",
-          "choices": ["San Pedro", "San Francisco de Asís", "San Nicolás", "San Juan Bautista"],
-          "correctAnswer": "San Nicolás",
+          "choices": ["San Pedro", "San Francisco de Asís", "San Nicolás de Bari", "San Juan Bautista"],
+          "correctAnswer": "San Nicolás de Bari",
+          "points": 400
+        },
+        {
+          "question": "¿Qué imperio declaró la Navidad como festividad oficial en el año 336 d.C.?",
+          "choices": ["El Imperio Bizantino", "El Imperio Romano", "El Imperio Otomano", "El Sacro Imperio Romano"],
+          "correctAnswer": "El Imperio Romano",
+          "points": 400
+        },
+        {
+          "question": "¿Qué figura bíblica proclamó el nacimiento de Jesús a los pastores?",
+          "choices": ["Un ángel", "San José", "El profeta Isaías", "San Juan Bautista"],
+          "correctAnswer": "Un ángel",
           "points": 400
         },
         {
@@ -153,15 +237,51 @@
           "points": 600
         },
         {
+          "question": "¿Qué significa el nombre 'Belén'?",
+          "choices": ["Lugar de los reyes", "Casa del pan", "Ciudad de la paz", "Estrella brillante"],
+          "correctAnswer": "Casa del pan",
+          "points": 600
+        },
+        {
+          "question": "Según la tradición, ¿de qué material estaba hecho el pesebre donde nació Jesús?",
+          "choices": ["Madera", "Piedra", "Arcilla", "Metal"],
+          "correctAnswer": "Piedra",
+          "points": 600
+        },
+        {
           "question": "¿Qué papa fijó el 25 de diciembre como la fecha oficial de la Navidad?",
           "choices": ["Papa Julio I", "Papa Gregorio I", "Papa León I", "Papa Clemente V"],
           "correctAnswer": "Papa Julio I",
           "points": 800
         },
         {
+          "question": "¿Qué emperador romano ordenó un censo en el año 6 a.C., lo que llevó a José y María a viajar a Belén según la narración bíblica?",
+          "choices": ["Nerón", "Augusto", "Tiberio", "Calígula"],
+          "correctAnswer": "Augusto",
+          "points": 800
+        },
+        {
+          "question": "¿En qué país se realizó la primera representación en vivo de un nacimiento (pesebre)?",
+          "choices": ["España", "Italia", "Francia", "Alemania"],
+          "correctAnswer": "Italia",
+          "points": 800
+        },
+        {
           "question": "¿Qué país es considerado el lugar de origen de la tradición moderna de Santa Claus (inspirada en San Nicolás)?",
           "choices": ["Noruega", "Turquía", "Alemania", "Finlandia"],
           "correctAnswer": "Turquía",
+          "points": 1000
+        },
+        {
+          "question": "¿En qué evangelio se menciona la historia del nacimiento de Jesús con los reyes magos?",
+          "choices": ["Evangelio de Juan", "Evangelio de Lucas", "Evangelio de Mateo", "Evangelio de Marcos"],
+          "correctAnswer": "Evangelio de Mateo",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué santo es conocido por haber llevado la tradición de los villancicos a las iglesias?",
+          "choices": ["San Francisco de Asís", "Santo Domingo de Guzmán", "San Agustín", "Santa Teresa"],
+          "correctAnswer": "San Francisco de Asís",
           "points": 1000
         }
       ]
@@ -174,17 +294,53 @@
           "choices": ["El Grinch", "Ebenezer Scrooge", "Jack Skellington", "Frosty"],
           "correctAnswer": "El Grinch",
           "points": 200
+        },
+        {
+          "question": "En El Cascanueces y el Rey de los Ratones de E.T.A. Hoffmann, ¿qué regalo recibe Clara en Navidad?",
+          "choices": ["Unas zapatillas de ballet", "Un cascanueces", "Una muñeca", "Un libro"],
+          "correctAnswer": "Un cascanueces",
+          "points": 200
+        },
+        {
+          "question": "En Cuento de Navidad, ¿cuántos fantasmas visitan a Ebenezer Scrooge?",
+          "choices": ["2", "3", "4", "5"],
+          "correctAnswer": "4",
+          "points": 200
         },        
        {
-          "question": "¿Qué famoso escritor británico escribió la obra Cuento de Navidad, que cuenta la historia de Ebenezer Scrooge?",
+          "question": "¿Qué famoso escritor británico escribió la obra Un Cuento de Navidad, que cuenta la historia de Ebenezer Scrooge?",
           "choices": ["William Shakespeare", "Charles Dickens", "Jane Austen", "Oscar Wilde"],
           "correctAnswer": "Charles Dickens",
           "points": 400
         },
+       {
+          "question": "¿Qué famoso libro navideño fue escrito por Charles Dickens en 1843?",
+          "choices": ["Oliver Twist", "Grandes Esperanzas", "Un Cuento de Navidad", "Casa desolada"],
+          "correctAnswer": "Un Cuento de Navidad",
+          "points": 400
+        },
+       {
+          "question": "En el libro infantil El Expreso Polar (The Polar Express), ¿qué regalo especial recibe el protagonista?",
+          "choices": ["Un tren de juguete", "Un cascabel de un trineo", "Un osito de peluche", "Un gorro navideño"],
+          "correctAnswer": "Un cascabel de un trineo",
+          "points": 400
+        },
         {
           "question": "En Las crónicas de Narnia: El león, la bruja y el armario de C.S. Lewis, ¿qué personaje trae regalos a los niños durante la Navidad?",
-          "choices": ["Santa Claus", "El Rey Caspian", "Aslan", "El Profesor Kirke"],
+          "choices": ["La Bruja Blanca", "Aslan", "El Profesor Kirke", "Santa Claus"],
           "correctAnswer": "Santa Claus",
+          "points": 600
+        },
+        {
+          "question": "¿Qué escritora británica menciona una celebración navideña en su novela Emma (1815)?",
+          "choices": ["Mary Shelley", "Jane Austen", "Charlotte Brontë", "George Eliot"],
+          "correctAnswer":  "Jane Austen",
+          "points": 600
+        },
+        {
+          "question": "¿Qué personaje de Cuento de Navidad representa las consecuencias del egoísmo y la avaricia?",
+          "choices": ["El Fantasma de las Navidades Futuras", "El Fantasma de las Navidades Presentes", "Jacob Marley", "Ebenezer Scrooge"],
+          "correctAnswer": "El Fantasma de las Navidades Futuras",
           "points": 600
         },
         {
@@ -194,9 +350,33 @@
           "points": 800
         },
         {
+          "question": "En Cuento de Navidad, ¿cómo se llama el empleado pobre pero bondadoso de Scrooge?",
+          "choices":  ["Jacob Marley", "Fred Cratchit", "Bob Cratchit", "Harry Marley"],
+          "correctAnswer": "Bob Cratchit",
+          "points": 800
+        },
+        {
+          "question": "En Harry Potter y la piedra filosofal, ¿qué regalo navideño recibe Harry de parte de los Weasley?",
+          "choices": ["Una capa de invisibilidad", "Una bufanda de Gryffindor", "Un suéter tejido a mano", "Un paquete de grageas de todos los sabores"],
+          "correctAnswer": "Un suéter tejido a mano",
+          "points": 800
+        },
+        {
           "question": "En Los bandidos del río frío de Manuel Payno, ¿qué tradición navideña mexicana se menciona como parte del contexto histórico?",
           "choices": ["La misa de gallo", "Las pastorelas", "La piñata","Las posadas"],
           "correctAnswer": "Las posadas",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué autor mexicano escribió el cuento navideño La Navidad en las montañas?",
+          "choices": ["Ignacio Manuel Altamirano", "Juan Rulfo", "Rosario Castellanos", "Octavio Paz"],
+          "correctAnswer": "Ignacio Manuel Altamirano",
+          "points": 1000
+        },
+        {
+          "question": "¿En qué país se ambienta el cuento El cascanueces y el rey de los ratones de E.T.A. Hoffmann?",
+          "choices": ["Alemania", "Rusia", "Austria", "Suiza"],
+          "correctAnswer": "Alemania",
           "points": 1000
         }
       ]
@@ -211,9 +391,33 @@
           "points": 200
         },
         {
+          "question": "¿Qué se coloca tradicionalmente en la punta del árbol de Navidad?",
+          "choices": ["Una estrella", "Un ángel", "Un lazo", "A o B (dependiendo de la tradición)"],
+          "correctAnswer": "A o B (dependiendo de la tradición)",
+          "points": 200
+        },
+        {
+          "question": "¿Qué tradición mexicana consiste en recrear la búsqueda de posada de María y José?",
+          "choices": ["Las piñatas", "Las posadas", "La pastorela", "El nacimiento"],
+          "correctAnswer": "Las posadas",
+          "points": 200
+        },
+        {
           "question": "En Estados Unidos, ¿cómo se llama la tradición de esconder un duende que vigila a los niños durante la Navidad?",
           "choices": ["Santa's Little Helper", "Elf on the Shelf", "Jingle Elf", "The Tiny Watcher"],
           "correctAnswer": "Elf on the Shelf",
+          "points": 400
+        },
+        {
+          "question": "¿Qué representan los siete picos de las piñatas navideñas en México?",
+          "choices": ["Los días de la semana", "Los pecados capitales", "Las virtudes humanas", "Las promesas divinas"],
+          "correctAnswer": "Los pecados capitales",
+          "points": 400
+        },
+        {
+          "question": "En México, ¿qué días se realizan las Posadas Navideñas?",
+          "choices": ["Del 12 al 24 de diciembre", "Del 16 al 24 de diciembre", "Del 8 al 24 de diciembre", "Del 20 al 25 de diciembre"],
+          "correctAnswer": "Del 16 al 24 de diciembre",
           "points": 400
         },
         {
@@ -223,15 +427,51 @@
           "points": 600
         },
         {
+          "question": "En Corea del Sur, ¿qué figura tradicional suele adornar los árboles de Navidad?",
+          "choices": ["Estrellas doradas", "Cintas rojas", "Cruces brillantes", "Ángeles blancos"],
+          "correctAnswer": "Cruces brillantes",
+          "points": 600
+        },
+        {
+          "question": "¿Qué tradición navideña incluye un tronco decorado que 'caga' regalos en Cataluña, España?",
+          "choices": ["Caga Tió", "El Turrón", "Las Posadas", "El Roscón"],
+          "correctAnswer": "Caga Tió",
+          "points": 600
+        },
+        {
           "question": "En Suecia, ¿qué animal de paja gigante es construido en la ciudad de Gävle cada año?",
           "choices": ["Un reno", "Un carnero", "Un caballo", "Una cabra"],
           "correctAnswer": "Una cabra",
           "points": 800
         },
         {
+          "question": "¿En qué país europeo es tradicional la 'Noche de San Esteban' (26 de diciembre), que se celebra con un almuerzo familiar, en el que se comen platos como pavo relleno, ensaladas y postres?",
+          "choices": ["Austria", "Polonia", "Hungría", "Eslovenia"],
+          "correctAnswer": "Austria",
+          "points": 800
+        },
+        {
+          "question": "¿En qué país se celebra el Weihnachtsmarkt, famoso mercado navideño?",
+          "choices": ["Alemania", "Francia", "Italia", "Suiza"],
+          "correctAnswer": "Alemania",
+          "points": 800
+        },
+        {
           "question": "En qué país africano, ¿la Navidad se celebra el 7 de enero debido a que siguen el calendario juliano?",
           "choices": ["Egipto", "Nigeria", "Etiopía", "Sudáfrica"],
           "correctAnswer": "Etiopía",
+          "points": 1000
+        },
+        {
+          "question": "¿En qué país se celebra la Noche de las Velitas como inicio de la temporada navideña?",
+          "choices": ["México", "Colombia", "Guatemala", "El Salvador"],
+          "correctAnswer": "Colombia",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué país celebra el Día del Rey Wenceslao como parte de sus festividades navideñas?",
+          "choices": ["República Checa", "Polonia", "Eslovaquia", "Hungría"],
+          "correctAnswer": "República Checa",
           "points": 1000
         }
       ]
@@ -246,15 +486,51 @@
           "points": 200
         },
         {
+          "question": "En Frozen, ¿quien dice la frase: 'Algunas personas valen la pena de derretirse por ellas'?",
+          "choices": ["Anna", "Kristoff", "Elsa", "Olaf"],
+          "correctAnswer": "Olaf",
+          "points": 200
+        },
+        {
+          "question": "En El Extraño Mundo de Jack, ¿quién exclama: '¿Qué es? ¿Qué es? ¡Hay colores por doquier!'?",
+          "choices": ["Sally", "Jack Skellington", "Oogie Boogie", "El alcalde"],
+          "correctAnswer": "Jack Skellington",
+          "points": 200
+        },
+        {
           "question": "¿Qué personaje dice: '¡Bájense de ahí, bola de chamacos! ¡Se van a romper algo antes de Navidad!'?",
           "choices": ["Don Chente (La posada mágica)", "El Chavo del 8 (Especial de Navidad del Chavo)", "Ramón Valdés (El regalo navideño de Don Ramón)", "La abuelita (Nochebuena en el barrio)"],
           "correctAnswer": "El Chavo del 8 (Especial de Navidad del Chavo)",
           "points": 400
         },
         {
-          "question": "En Cuento de Navidad de Charles Dickens, ¿quién dice la frase '¡Basta de ser un tacaño, Scrooge! ¡Si no quieres ser feliz, al menos deja a los demás serlo!'?",
+          "question": "'¡Las navidades no se cancelan!' Es una frase de Santa Cláusula dicha por cual personaje?",
+          "choices": ["Santa Claus", "Mrs. Claus", "Jack Frost", "Bernard, el Elfo"],
+          "correctAnswer": "Santa Claus",
+          "points": 400
+        },
+        {
+          "question": "¿En Harry Potter y la Piedra Filosofal quien dice la frase: ‘No necesitamos magia para tener Navidad. La llevamos dentro.’?",
+          "choices": ["Dumbledore", "Profesora McGonagall", "Hermione", "Hagrid"],
+          "correctAnswer": "Dumbledore",
+          "points": 400
+        },
+        {
+          "question": "En Cuento de Navidad de Charles Dickens, ¿quién dice la frase: '¡Basta de ser un tacaño, Scrooge! ¡Si no quieres ser feliz, al menos deja a los demás serlo!'?",
           "choices": ["El Fantasma de la Navidad Pasada", "Fred, el sobrino de Scrooge", "Jacob Marley", "El Fantasma de la Navidad Futura"],
           "correctAnswer": "Fred, el sobrino de Scrooge",
+          "points": 600
+        },
+        {
+          "question": "En Un Cuento de Navidad, ¿qué fantasma dice: 'Soy el Fantasma de la Navidad Presente'?",
+          "choices": ["El fantasma de Jacob Marley", "El primer espíritu que visita a Scrooge", "El segundo espíritu que visita a Scrooge", "El último espíritu que visita a Scrooge"],
+          "correctAnswer": "El segundo espíritu que visita a Scrooge",
+          "points": 600
+        },
+        {
+          "question": "¿Quién dice esta frase: 'Escribir sobre corazones rotos es la única manera de entenderlos realmente', en la pelicula El Descanso?",
+          "choices": ["Iris", "Amanda", "Graham", "Arthur"],
+          "correctAnswer": "Iris",
           "points": 600
         },
         {
@@ -264,9 +540,33 @@
           "points": 800
         },
         {
+          "question": "En la película Realmente Amor, quien dice la frase: 'Si realmente amas a alguien, díselo ahora. Alto y claro.'?",
+          "choices": ["Jamie", "Mark", "Sam", "Daniel"],
+          "correctAnswer": "Daniel",
+          "points": 800
+        },
+        {
+          "question": "En la película Navidad con los Kranks, ¿quién dice la frase: '¡Es Navidad! ¡Claro que vamos a celebrarla, incluso si es de último minuto!'?",
+          "choices": ["Luther Krank", "Nora Krank", "Vic Frohmeyer", "Blair Krank"],
+          "correctAnswer": "Blair Krank",
+          "points": 800
+        },
+        {
           "question": "¿En qué película se dice la frase: 'Tal vez la Navidad no viene de una tienda, tal vez la Navidad significa algo más.'?",
           "choices": ["El Grinch", "Mi pobre angelito", "Frosty el muñeco de nieve", "Milagro en la Calle 34"],
           "correctAnswer": "El Grinch",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué personaje dice: 'El mejor modo de difundir la alegría navideña es cantando fuerte para que todos lo escuchen'?",
+          "choices": ["Kevin en Mi pobre angelito", "Scott Calvin en Santa Cláusula", "Buddy en Elf", "Cindy Lou en El Grinch"],
+          "correctAnswer": "Buddy en Elf",
+          "points": 1000
+        },
+        {
+          "question": "¿Qué película incluye la frase: 'Papá dice que las historias están hechas para compartirlas'?",
+          "choices": ["El Expreso Polar", "Arthur Christmas", "Klaus", "Jingle Jangle: Una mágica Navidad"],
+          "correctAnswer": "Klaus",
           "points": 1000
         }
       ]
