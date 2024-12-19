@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 8144310896692235954}
   - component: {fileID: 8144310896692235964}
   - component: {fileID: 8144310896692235955}
-  - component: {fileID: 3887188843935454062}
+  - component: {fileID: 4112861216262486558}
   m_Layer: 5
   m_Name: Panel Team
   m_TagString: Untagged
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3887188843935454062
+--- !u!114 &4112861216262486558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,14 +250,14 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 15
-    m_Bottom: 10
-  m_ChildAlignment: 4
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -378,7 +378,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 131.2455, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8144310896849936163
 CanvasRenderer:
@@ -424,7 +424,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 218.75, y: 150}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8144310896917146872
 CanvasRenderer:

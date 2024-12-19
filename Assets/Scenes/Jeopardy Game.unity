@@ -9894,7 +9894,7 @@ MonoBehaviour:
   teamsPanelPrefab: {fileID: 8144310896692235953, guid: ee6149dac7abc01428d8934b9d571308, type: 3}
   teamsPanelParent: {fileID: 1004794445}
   coinCountText: {fileID: 0}
-  totalQuestions: 5
+  totalQuestions: 30
   questionValue: 0
   currentTeamIndex: 0
   currentStealTeamIndex: 0
