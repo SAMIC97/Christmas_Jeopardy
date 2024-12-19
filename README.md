@@ -15,16 +15,19 @@
 ## **Screenshots del Juego**
 
 ### Inicio
-
+![Inicio](Assets/UI/Screenshots/Home.png)
 
 ### Tablero Juego
+![Inicio](Assets/UI/Screenshots/Board_V2.png)
 
+### Pregunta
+![Inicio](Assets/UI/Screenshots/Q&A.png)
 
 ### Robo de puntos
-
+![Inicio](Assets/UI/Screenshots/Q&A_steal.png)
 
 ### Fin del Juego
-
+![Inicio](Assets/UI/Screenshots/Winner.png)
 
 ---
 
