@@ -27,6 +27,7 @@ public class QuestionManager : MonoBehaviour
     [Header("Question Data")]
     private QuestionData questionData;       // Holds all loaded questions from JSON
     private Question currentQuestion;        // The question currently being displayed
+    private QuestionData originalQuestionData; // Backup of original questions
 
     private UIManager uiManager;             // Reference to UIManager for managing panels and feedback
 
@@ -76,6 +77,9 @@ public class QuestionManager : MonoBehaviour
     {
         TextAsset jsonText = Resources.Load<TextAsset>("questions");
         questionData = JsonUtility.FromJson<QuestionData>(jsonText.text);
+
+        // Clone the original data for reset purposes
+        originalQuestionData = JsonUtility.FromJson<QuestionData>(jsonText.text);
     }
 
     /// <summary>
@@ -91,6 +95,33 @@ public class QuestionManager : MonoBehaviour
         string categoryName = buttonInfo[0];
         int points = int.Parse(buttonInfo[1]);
 
+        // Find the category and randomly select a question
+        foreach (Category category in questionData.categories)
+        {
+            if (category.name == categoryName)
+            {
+                var questionsForPoints = category.questions.FindAll(q => q.points == points);
+
+                if (questionsForPoints != null && questionsForPoints.Count > 0)
+                {
+                    int randomIndex = Random.Range(0, questionsForPoints.Count);
+                    currentQuestion = questionsForPoints[randomIndex];
+
+                    // Remove the question from the pool to avoid repetition
+                    category.questions.Remove(currentQuestion);
+
+                    // Display the question and disable the button
+                    DisplayQuestion();
+                    selectedButton.interactable = false;
+                    return;
+                }
+                else
+                {
+                    Debug.LogWarning($"No available questions for category {categoryName} and points {points}.");
+                }
+            }
+        }
+        /*
         foreach (Category category in questionData.categories)
         {
             if (category.name == categoryName)
@@ -106,7 +137,7 @@ public class QuestionManager : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -145,6 +176,14 @@ public class QuestionManager : MonoBehaviour
         uiManager.returnButton.gameObject.SetActive(false); // Hide the Return button initially
         uiManager.ShowQuestionPanel(); // Display the Question Panel
         StartTimer(); // Start the question timer
+    }
+
+    /// <summary>
+    /// Method to restore the original question data.
+    /// </summary>
+    public void ResetQuestions()
+    {
+        questionData = JsonUtility.FromJson<QuestionData>(JsonUtility.ToJson(originalQuestionData));
     }
     #endregion
 
