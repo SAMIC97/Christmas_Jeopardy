@@ -20,7 +20,7 @@
 ### Tablero Juego
 ![Inicio](Assets/UI/Screenshots/Board_V2.png)
 
-### Pregunta
+### Pregunta con opción multiple
 ![Inicio](Assets/UI/Screenshots/Q&A.png)
 
 ### Robo de puntos
@@ -57,7 +57,7 @@
 1. Configuración::
    - Ingrese la cantidad de jugadores o equipos al inicio.
     
-2. Dinamica del uego:
+2. Dinamica del Juego:
    - Los equipos se turnan para seleccionar categorías y responder preguntas.
    - Ganan puntos por las respuestas correctas.
    - Las respuestas incorrectas pasan al "Robo de puntos" para otros equipos.
