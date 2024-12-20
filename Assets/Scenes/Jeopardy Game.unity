@@ -9918,21 +9918,21 @@ MonoBehaviour:
   winningPanel: {fileID: 1661292356}
   questionPanel: {fileID: 1277950097}
   buttonAnswerPanel: {fileID: 437623122}
+  stealPanel: {fileID: 409109792}
+  stealMessagePanel: {fileID: 1951743508}
+  timedOutPanel: {fileID: 921191966}
   teamInputField: {fileID: 1750040559}
   returnButton: {fileID: 139910939}
   startButton: {fileID: 1491600568}
   confirmTeamsButton: {fileID: 2060792595}
   winningText: {fileID: 1525346619}
-  stealPanel: {fileID: 409109792}
+  placeholderText: {fileID: 2104671008}
   stealMessageText: {fileID: 572131685}
-  teamHasStolen: 0
-  stealMessagePanel: {fileID: 1951743508}
   snowEffect: {fileID: 2110710477}
   teams: []
+  teamHasStolen: 0
   maxTeams: 10
-  placeholderText: {fileID: 2104671008}
   panelBoard: {fileID: 443849392}
-  timedOutPanel: {fileID: 921191966}
   flashDuration: 0.5
   flashCurve:
     serializedVersion: 2

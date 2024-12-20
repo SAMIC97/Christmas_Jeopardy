@@ -35,19 +35,19 @@
           "points": 400
         },
         {
-          "question": "En The Nightmare Before Christmas (1993), ¿qué usa Jack Skellington como sombrero cuando se disfraza de Santa Claus?",
+          "question": "En 'El Extraño Mundo de Jack' (1993), ¿qué usa Jack Skellington como sombrero cuando se disfraza de Santa Claus?",
           "choices": ["Un sombrero hecho de nieve", "Una funda de almohada roja", "Un sombrero de copa rojo", "Un gorro tradicional de Santa"],
-          "correctAnswer": "El Polo Norte",
+          "correctAnswer": "Un gorro tradicional de Santa",
           "points": 400
         },
         {
-          "question": "¿Qué regalo busca frenéticamente Arnold Schwarzenegger en El regalo prometido (1996)?",
+          "question": "¿Qué regalo busca frenéticamente Arnold Schwarzenegger en 'El regalo prometido' (1996)?",
           "choices": ["TurboMan", "Buster", "Power Ranger Rojo", "Stretch Armstrong"],
           "correctAnswer": "TurboMan",
           "points": 600
         },
         {
-          "question": " En The Holiday (2006), ¿qué ciudad británica visita el personaje de Cameron Diaz?",
+          "question": " En 'El Descanso' (2006), ¿qué ciudad británica visita el personaje de Cameron Diaz?",
           "choices": ["Londres", "Bristol", "Manchester", "Surrey"],
           "correctAnswer": " Surrey ",
           "points": 600
@@ -59,7 +59,7 @@
           "points": 600
         },
         {
-          "question": "En Love Actually (2003), ¿qué instrumento toca el personaje de Sam para impresionar a su crush?",
+          "question": "En 'Realmente Amor' (2003), ¿qué instrumento toca el personaje de Sam para impresionar a su crush?",
           "choices": ["Piano", "Batería", "Guitarra", "Saxofón"],
           "correctAnswer": "Batería",
           "points": 800
@@ -308,7 +308,7 @@
           "points": 200
         },        
        {
-          "question": "¿Qué famoso escritor británico escribió la obra Un Cuento de Navidad, que cuenta la historia de Ebenezer Scrooge?",
+          "question": "¿Qué famoso escritor británico escribió la obra 'Un Cuento de Navidad', que cuenta la historia de Ebenezer Scrooge?",
           "choices": ["William Shakespeare", "Charles Dickens", "Jane Austen", "Oscar Wilde"],
           "correctAnswer": "Charles Dickens",
           "points": 400
@@ -320,13 +320,13 @@
           "points": 400
         },
        {
-          "question": "En el libro infantil El Expreso Polar (The Polar Express), ¿qué regalo especial recibe el protagonista?",
+          "question": "En el libro infantil 'El Expreso Polar', ¿qué regalo especial recibe el protagonista?",
           "choices": ["Un tren de juguete", "Un cascabel de un trineo", "Un osito de peluche", "Un gorro navideño"],
           "correctAnswer": "Un cascabel de un trineo",
           "points": 400
         },
         {
-          "question": "En Las crónicas de Narnia: El león, la bruja y el armario de C.S. Lewis, ¿qué personaje trae regalos a los niños durante la Navidad?",
+          "question": "En 'Las crónicas de Narnia: El león, la bruja y el armario' de C.S. Lewis, ¿qué personaje trae regalos a los niños durante la Navidad?",
           "choices": ["La Bruja Blanca", "Aslan", "El Profesor Kirke", "Santa Claus"],
           "correctAnswer": "Santa Claus",
           "points": 600
@@ -350,13 +350,13 @@
           "points": 800
         },
         {
-          "question": "En Cuento de Navidad, ¿cómo se llama el empleado pobre pero bondadoso de Scrooge?",
+          "question": "En un 'Cuento de Navidad', ¿cómo se llama el empleado pobre pero bondadoso de Scrooge?",
           "choices":  ["Jacob Marley", "Fred Cratchit", "Bob Cratchit", "Harry Marley"],
           "correctAnswer": "Bob Cratchit",
           "points": 800
         },
         {
-          "question": "En Harry Potter y la piedra filosofal, ¿qué regalo navideño recibe Harry de parte de los Weasley?",
+          "question": "En 'Harry Potter y la piedra filosofal', ¿qué regalo navideño recibe Harry de parte de los Weasley?",
           "choices": ["Una capa de invisibilidad", "Una bufanda de Gryffindor", "Un suéter tejido a mano", "Un paquete de grageas de todos los sabores"],
           "correctAnswer": "Un suéter tejido a mano",
           "points": 800
@@ -433,9 +433,9 @@
           "points": 600
         },
         {
-          "question": "¿Qué tradición navideña incluye un tronco decorado que 'caga' regalos en Cataluña, España?",
-          "choices": ["Caga Tió", "El Turrón", "Las Posadas", "El Roscón"],
-          "correctAnswer": "Caga Tió",
+          "question": "¿En cual comunidad autónoma de España es originaria la tradición navideña, 'Caga Tió', que es un tronco decorado que caga regalos?",
+          "choices": ["Cataluña", "Galicia", "Aragón", "Madrid"],
+          "correctAnswer": "Cataluña",
           "points": 600
         },
         {
