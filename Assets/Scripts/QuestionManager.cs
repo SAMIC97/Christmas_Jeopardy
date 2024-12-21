@@ -361,6 +361,15 @@ public class QuestionManager : MonoBehaviour
             {
                 // If not stolen, attempt to steal the question
                 GameManager.Instance.AttemptStealQuestion(questionPoints);
+
+                //If there is no coins from other teams to steal and they answer incorrectly
+                if (GameManager.Instance.noCoins)
+                {
+                    uiManager.HighlightCorrectAnswer(answerButtons, currentQuestion);
+                    uiManager.returnButton.gameObject.SetActive(true);  // Show the Return button after answering
+                    GameManager.Instance.noCoins = false;
+                    GameManager.Instance.EndTurn();
+                }
             }
 
             // Play wrong answer sound
@@ -418,7 +427,7 @@ public class QuestionManager : MonoBehaviour
     #region Stealing Logic
     public void ResetQuestionForStealing()
     {
-        Debug.Log("Resetting question for stealing team.");
+        //Debug.Log("Resetting question for stealing team.");
 
         currentQuestion.hasBeenStolen = true;
         isStealPhase = true; // Set steal phase active

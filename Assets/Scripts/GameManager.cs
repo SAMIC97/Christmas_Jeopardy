@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public int answeredQuestions = 0;       // Number of questions answered
 
     // Singleton instance
+    public bool noCoins = false;
     public static GameManager Instance { get; private set; }
 
     private UIManager uiManager;
@@ -208,6 +209,7 @@ public class GameManager : MonoBehaviour
         if (stealQueue.Count == 0)
         {
             Debug.Log("No teams can afford to steal.");
+            noCoins = true;
             EndStealPhase();
             return;
         }
