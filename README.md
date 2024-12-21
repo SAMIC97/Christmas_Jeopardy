@@ -1,6 +1,6 @@
 # **Juego Jeopardy Navideño**
 
-🎄 Un juego de trivia festivo inspirado en el clásico Jeopardy! Diseñado para jugadores de todas las edade, este juego reúne a familiares y amigos durante la temporada navideña con categorías y preguntas que abarcan desde peliculas y canciones hasta historia y tradiciones de la Navidad.
+🎄 Un juego de trivia festivo inspirado en el clásico Jeopardy! Diseñado para jugadores de todas las edades, este juego reúne a familiares y amigos durante la temporada navideña con categorías y preguntas que abarcan desde peliculas y canciones hasta historia y tradiciones de la Navidad.
 
 ## **Características**
 - 🎅 **Equipos/jugadores personalizables**: elige la cantidad de jugadores o equipos antes de comenzar el juego.
